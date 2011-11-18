@@ -1,0 +1,35 @@
+<package>
+  <description brief="youbot_arm_kinematics">
+
+     This package provides kinematics for the youBot arm.
+
+  </description>
+  <author>Sven Schneider, Matthias Füller</author>
+  <license>GPL</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/youbot_arm_kinematics</url>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="actionlib"/>
+  <depend package="pluginlib"/>
+  <depend package="kdl"/>
+  <depend package="kdl_parser"/>
+  <depend package="eigen"/>
+  <depend package="urdf"/>
+  <depend package="sensor_msgs"/>
+  <depend package="kinematics_msgs" />
+  <depend package="trajectory_msgs"/>
+  <depend package="motion_planning_msgs"/>
+  <depend package="pr2_controllers_msgs"/>
+  <depend package="kinematics_base"/>
+  <depend package="pr2_arm_kinematics"/>
+
+  
+  <export>
+    <cpp cflags="-I${prefix}/include" lflags="-Wl,-rpath,${prefix}/lib -L${prefix}/lib -lyoubot_arm_kinematics"/>
+    <kinematics_base plugin="${prefix}/kinematics_plugins.xml" />
+  </export>
+
+</package>
+
+
