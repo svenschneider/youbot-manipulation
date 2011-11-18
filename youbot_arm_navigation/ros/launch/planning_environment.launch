@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+	<rosparam command="load" ns="robot_description_collision" file="$(find youbot_arm_navigation)/ros/config/collision_checks.yaml" />
+	<rosparam command="load" ns="robot_description_planning" file="$(find youbot_arm_navigation)/ros/config/multi_dof_joints.yaml" />
+	<rosparam command="load" ns="robot_description_planning" file="$(find youbot_arm_navigation)/ros/config/planning_groups.yaml" />
+
+</launch>

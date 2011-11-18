@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+
+	<include file="$(find youbot_arm_navigation)/ros/launch/planning_environment.launch" />
+	
+	<include file="$(find youbot_arm_navigation)/ros/launch/environment_server.launch">
+		<arg name="use_monitor" value="true" />
+		<arg name="use_collision_map" value="false" />
+	</include>
+	
+	<include file="$(find youbot_arm_navigation)/ros/launch/constraint_aware_kinematics.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/ompl_planning.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter_server.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/move_arm.launch" />
+
+</launch>

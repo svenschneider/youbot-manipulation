@@ -1,0 +1,31 @@
+groups:
+  - name: platform
+    joints:
+      base_joint
+      plate_joint
+    links:
+      base_link
+      plate_link
+  - name: arm
+    joints:
+      arm_joint_1
+      arm_joint_2
+      arm_joint_3
+      arm_joint_4
+      arm_joint_5
+    links:
+      arm_link_0
+      arm_link_1
+      arm_link_2
+      arm_link_3
+      arm_link_4
+      arm_link_5
+  - name: gripper
+    joints:
+      gripper_palm_joint
+      gripper_finger_joint_l
+      gripper_finger_joint_r
+    links:
+      gripper_palm_link
+      gripper_finger_link_l
+      gripper_finger_link_r

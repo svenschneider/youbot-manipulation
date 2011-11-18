@@ -1,0 +1,5 @@
+arm:
+  tip_name: arm_link_5
+  root_name: arm_link_0
+
+kinematics_solver: youbot_arm_kinematics/YouBotArmKinematicsPlugin

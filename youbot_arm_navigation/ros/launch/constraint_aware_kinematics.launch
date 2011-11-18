@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+	
+	<node pkg="arm_kinematics_constraint_aware" type="arm_kinematics_constraint_aware" name="youbot_arm_kinematics" output="screen">
+		<remap from="joint_states" to="/joint_states" />
+		<remap from="robot_description" to="/robot_description" />
+		
+		<param name="group" type="string" value="arm" />
+		<param name="use_monitor" type="bool" value="true" />
+		<param name="use_collision_map" type="bool" value="false" />
+		
+		<param name="search_discretization" type="double" value="6.2832" />
+		
+		<rosparam command="load" file="$(find youbot_arm_navigation)/ros/config/robot_padding.yaml" />
+		<rosparam command="load" file="$(find youbot_arm_navigation)/ros/config/arm_kinematics.yaml" />
+	</node>
+    
+</launch>

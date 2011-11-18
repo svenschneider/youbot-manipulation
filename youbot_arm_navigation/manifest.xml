@@ -1,0 +1,21 @@
+<package>
+  <description brief="youbot_arm_navigation">
+
+     This package contains necessary files to start up planners for the youBot.
+
+  </description>
+  <author>Sven Schneider</author>
+  <license>GPL</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/youbot_arm_navigation</url>
+  <depend package="planning_environment"/>
+  <depend package="arm_kinematics_constraint_aware"/>
+  <depend package="ompl_ros_interface"/>
+  <depend package="trajectory_filter_server"/>
+  <depend package="constraint_aware_spline_smoother"/>
+  <depend package="move_arm"/>
+  <depend package="youbot_arm_kinematics"/>
+
+</package>
+
+
