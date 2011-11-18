@@ -193,7 +193,7 @@ bool ArmKinematicsConstraintAware::getConstraintAwarePositionIK(kinematics_msgs:
                                                         request_in.timeout.toSec(),
                                                         response.solution.joint_state.position,
                                                         boost::bind(&ArmKinematicsConstraintAware::initialPoseCheck, this, _1, _2, _3),
-                                                        boost::bind(&ArmKinematicsConstraintAware::collisionCheck, this, _1, _2, _3),kinematics_error_code)>=0);
+                                                        boost::bind(&ArmKinematicsConstraintAware::collisionCheck, this, _1, _2, _3),kinematics_error_code));
   ROS_INFO("IK solver time: %f",(ros::Time::now()-ik_solver_time).toSec());
 
   planning_monitor_->revertToDefaultState();
