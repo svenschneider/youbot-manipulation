@@ -145,9 +145,9 @@ class InverseKinematicsSolver : public KDL::ChainIkSolverPos
 				const KDL::Frame& p_in,
 				KDL::JntArray &q_out,
 				const double &timeout,
-				motion_planning_msgs::ArmNavigationErrorCodes &error_code,
-				const boost::function<void(const KDL::JntArray&,const KDL::Frame&,motion_planning_msgs::ArmNavigationErrorCodes &)> &desired_pose_callback,
-				const boost::function<void(const KDL::JntArray&,const KDL::Frame&,motion_planning_msgs::ArmNavigationErrorCodes &)> &solution_callback);
+				arm_navigation_msgs::ArmNavigationErrorCodes &error_code,
+				const boost::function<void(const KDL::JntArray&,const KDL::Frame&,arm_navigation_msgs::ArmNavigationErrorCodes &)> &desired_pose_callback,
+				const boost::function<void(const KDL::JntArray&,const KDL::Frame&,arm_navigation_msgs::ArmNavigationErrorCodes &)> &solution_callback);
 
 
 	private: // functions

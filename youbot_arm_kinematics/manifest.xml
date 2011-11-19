@@ -19,7 +19,7 @@
   <depend package="sensor_msgs"/>
   <depend package="kinematics_msgs" />
   <depend package="trajectory_msgs"/>
-  <depend package="motion_planning_msgs"/>
+  <depend package="arm_navigation_msgs"/>
   <depend package="pr2_controllers_msgs"/>
   <depend package="kinematics_base"/>
   <depend package="pr2_arm_kinematics"/>
