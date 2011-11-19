@@ -10,7 +10,7 @@ import geometry_msgs.msg
 import kinematics_msgs.srv
 import kinematics_msgs.msg
 import sensor_msgs.msg
-import motion_planning_msgs.msg
+import arm_navigation_msgs.msg
 
 
 class KinematicsTest:
@@ -63,7 +63,7 @@ class KinematicsTest:
 		except rospy.ServiceException, e:
 			rospy.logerr("Service did not process request: %s", str(e))
 		
-		if (resp.error_code.val == motion_planning_msgs.msg.ArmNavigationErrorCodes.SUCCESS):
+		if (resp.error_code.val == arm_navigation_msgs.msg.ArmNavigationErrorCodes.SUCCESS):
 			return (resp.pose_stamped[0], True)
 		else:
 			return (geometry_msgs.msg.PoseStamped(), False)
@@ -81,7 +81,7 @@ class KinematicsTest:
 			resp = self.iks(req)
 		except rospy.ServiceException, e:
 			rospy.logerr("Service did not process request: %s", str(e))
-		return (resp.solution.joint_state.position, resp.error_code.val == motion_planning_msgs.msg.ArmNavigationErrorCodes.SUCCESS)
+		return (resp.solution.joint_state.position, resp.error_code.val == arm_navigation_msgs.msg.ArmNavigationErrorCodes.SUCCESS)
 
 
 	def call_constraint_aware_ik_solver(self, goal_pose):
@@ -97,7 +97,7 @@ class KinematicsTest:
 			resp = self.ciks(req)
 		except rospy.ServiceException, e:
 			rospy.logerr("Service did not process request: %s", str(e))
-		return (resp.solution.joint_state.position, resp.error_code.val == motion_planning_msgs.msg.ArmNavigationErrorCodes.SUCCESS)
+		return (resp.solution.joint_state.position, resp.error_code.val == arm_navigation_msgs.msg.ArmNavigationErrorCodes.SUCCESS)
 
 
 

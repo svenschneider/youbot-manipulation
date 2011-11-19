@@ -221,7 +221,7 @@ namespace youbot_arm_kinematics {
 
 	void ArmKinematicsPlugin::desiredPoseCallback(const KDL::JntArray& jnt_array,
 			const KDL::Frame& ik_pose,
-			motion_planning_msgs::ArmNavigationErrorCodes& error_code)
+			arm_navigation_msgs::ArmNavigationErrorCodes& error_code)
 	{
 		std::vector<double> ik_seed_state;
 		ik_seed_state.resize(_dimension);
@@ -236,16 +236,16 @@ namespace youbot_arm_kinematics {
 
 		_desiredPoseCallback(ik_pose_msg, ik_seed_state, int_error_code);
 		if (int_error_code) {
-			error_code.val = motion_planning_msgs::ArmNavigationErrorCodes::SUCCESS;
+			error_code.val = arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS;
 		} else {
-			error_code.val = motion_planning_msgs::ArmNavigationErrorCodes::NO_IK_SOLUTION;
+			error_code.val = arm_navigation_msgs::ArmNavigationErrorCodes::NO_IK_SOLUTION;
 		}
 	}
 
 
 	void ArmKinematicsPlugin::jointSolutionCallback(const KDL::JntArray& jnt_array,
 			const KDL::Frame& ik_pose,
-			motion_planning_msgs::ArmNavigationErrorCodes& error_code)
+			arm_navigation_msgs::ArmNavigationErrorCodes& error_code)
 	{
 		std::vector<double> ik_seed_state;
 		ik_seed_state.resize(_dimension);
@@ -260,9 +260,9 @@ namespace youbot_arm_kinematics {
 
 		_solutionCallback(ik_pose_msg, ik_seed_state, int_error_code);
 		if(int_error_code > 0) {
-			error_code.val = motion_planning_msgs::ArmNavigationErrorCodes::SUCCESS;
+			error_code.val = arm_navigation_msgs::ArmNavigationErrorCodes::SUCCESS;
 		} else {
-			error_code.val = motion_planning_msgs::ArmNavigationErrorCodes::NO_IK_SOLUTION;
+			error_code.val = arm_navigation_msgs::ArmNavigationErrorCodes::NO_IK_SOLUTION;
 		}
 	}
 
@@ -294,7 +294,7 @@ namespace youbot_arm_kinematics {
 			jnt_pos_in(i) = ik_seed_state[i];
 		}
 
-		motion_planning_msgs::ArmNavigationErrorCodes error_code;
+		arm_navigation_msgs::ArmNavigationErrorCodes error_code;
 		int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
 				pose_desired,
 				jnt_pos_out,

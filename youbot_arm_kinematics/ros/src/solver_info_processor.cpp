@@ -57,7 +57,7 @@ kinematics_msgs::KinematicSolverInfo SolverInfoProcessor::getSolverInfo() const
 
 void SolverInfoProcessor::addJointToChainInfo(boost::shared_ptr<const urdf::Joint> joint, kinematics_msgs::KinematicSolverInfo &info)
 {
-	motion_planning_msgs::JointLimits limit;
+	arm_navigation_msgs::JointLimits limit;
 	info.joint_names.push_back(joint->name);//Joints are coming in reverse order
 
 	if (joint->type != urdf::Joint::CONTINUOUS) {
