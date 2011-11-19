@@ -39,7 +39,3 @@ rosbuild_add_library(youbot_arm_kinematics
 	ros/src/inverse_kinematics_solver.cpp
 	ros/src/solver_info_processor.cpp
 )
-
-rosbuild_add_executable(kdl_projection
-	ros/src/kdl_projection.cpp
-)
