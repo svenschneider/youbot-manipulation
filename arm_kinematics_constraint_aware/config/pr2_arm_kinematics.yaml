@@ -1,4 +1,0 @@
-right_arm:
-  tip_name: r_wrist_roll_link
-  root_name: torso_lift_link
-  kinematics_solver: pr2_arm_kinematics/PR2ArmKinematicsPlugin
