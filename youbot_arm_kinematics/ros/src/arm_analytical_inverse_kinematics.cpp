@@ -149,6 +149,10 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	double r33 = g2_proj.M(2, 2);
 	double j234 = atan2(r13 * c1 + r23 * s1, r33);
 
+
+	if ((g1.p.x() < 0) && (!offset_joint_1)) j234 *= -1;
+
+
 	KDL::Vector p2 = g2_proj.p;
 
 	p2.x(p2.x() - d * sin(j234));
@@ -172,8 +176,13 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 		if (j3 >= 0) j2 = -atan2(p2.z(), p2.x()) - atan2(l3 * sin(j3), l2 + l3 * cos(j3));
 		else j2 = -atan2(p2.z(), p2.x()) + atan2(l3 * sin(j3), l2 + l3 * cos(j3));
 	} else {
-		if (j3 >= 0) j2 = -atan2(p2.z(), p2.x()) + atan2(l3 * sin(j3), l2 + l3 * cos(j3));
-		else j2 = -atan2(p2.z(), p2.x()) - atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+		double t1 = atan2(p2.z(), p2.x());
+		double t2 = atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+
+		if (t1 < 0.0) t1 = (2.0 * M_PI) + t1;
+
+		if (j3 >= 0) j2 = -t1 + t2;
+		else j2 = -t1 - t2;
 	}
 	j2 += M_PI_2;
 
