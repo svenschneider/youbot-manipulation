@@ -98,8 +98,8 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 
 
 	// Transform from frame 0 to frame 1
-	KDL::Frame frame0_to_frame1_inv(KDL::Rotation::Identity(), KDL::Vector(-l0x, 0, -l0z));
-	KDL::Frame g1 = frame0_to_frame1_inv * g0;
+	KDL::Frame frame0_to_frame1(KDL::Rotation::Identity(), KDL::Vector(-l0x, 0, -l0z));
+	KDL::Frame g1 = frame0_to_frame1 * g0;
 
 	// First joint
 	j1 = atan2(g1.p.y(), g1.p.x());
@@ -110,8 +110,8 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 
 
 	// Transform from frame 1 to frame 2
-	KDL::Frame frame1_to_frame2_inv(KDL::Rotation::RPY(0, 0, -j1), KDL::Vector(-l1x, 0, -l1z));
-	KDL::Frame g2 = frame1_to_frame2_inv * g1;
+	KDL::Frame frame1_to_frame2(KDL::Rotation::RPY(0, 0, -j1), KDL::Vector(-l1x, 0, -l1z));
+	KDL::Frame g2 = frame1_to_frame2 * g1;
 
 	// Project the frame into the plane of the arm
 	KDL::Frame g2_proj = ProjectGoalOrientationIntoArmSubspace(g2);
