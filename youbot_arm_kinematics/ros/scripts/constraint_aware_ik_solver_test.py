@@ -108,22 +108,32 @@ if __name__ == "__main__":
 	iks = KinematicsTest()
 	
 	'''
-	# Point upwards (internal home position of inverse kinematics)
+	# Pointing upwards (internal home position of inverse kinematics)
 	x = 0.024 + 0.033
 	y = 0
 	z = 0.535
 	roll = 0
-	pitch = -math.pi / 2.0
+	pitch = 0
 	yaw = 0
 	'''
 	
 	'''
-	# Point upwards on left
+	# Pointing upwards on left
 	x = 0.024
 	y = 0.033
 	z = 0.535
 	roll = 0
-	pitch = -math.pi / 2.0
+	pitch = 0
+	yaw = 0
+	'''
+	
+	'''
+	# Pointing to front
+	x = 0.024 + 0.033 + 0.4
+	y = 0
+	z = 0.115
+	roll = 0
+	pitch = math.pi / 2.0
 	yaw = 0
 	'''
 	
@@ -133,28 +143,8 @@ if __name__ == "__main__":
 	y = 0.033 + 0.4
 	z = 0.115
 	roll = 0
-	pitch = 0
-	yaw = math.pi / 2.0
-	'''
-	
-	'''
-	# Pointing down on left
-	x = 0.024
-	y = 0.033 + 0.4 - 0.13
-	z = 0
-	roll = math.pi / 2.0
 	pitch = math.pi / 2.0
 	yaw = math.pi / 2.0
-	'''
-	
-	'''
-	# Pointing back
-	x = 0.024
-	y = 0
-	z = 0.4
-	roll = 0
-	pitch = -math.pi / 2.0
-	yaw = 0
 	'''
 	
 	'''
@@ -163,7 +153,27 @@ if __name__ == "__main__":
 	y =  0.0
 	z = -0.05
 	roll = 0
-	pitch = math.pi / 2.0
+	pitch = math.pi
+	yaw = 0
+	'''
+	
+	'''
+	# Grasp from floor on right
+	x =  0.024
+	y = -0.25
+	z = -0.05
+	roll = 0
+	pitch = math.pi
+	yaw = 0
+	'''
+	
+	'''
+	# Pointing down on left
+	x = 0.024
+	y = 0.033 + 0.4 - 0.13
+	z = 0
+	roll = math.pi
+	pitch = 0
 	yaw = 0
 	'''
 	
@@ -173,7 +183,57 @@ if __name__ == "__main__":
 	y =  0.2
 	z = -0.05
 	roll = 0
-	pitch = math.pi / 2.0
+	pitch = math.pi
+	yaw = math.pi / 2.0
+	'''
+	
+	'''
+	# Pointing slightly upwards in front (works)
+	x = 0.024 + 0.033 + 0.3
+	y = 0
+	z = 0.115
+	roll = 0
+	pitch = math.pi / 2.0 - 0.56
+	yaw = 0
+	'''
+	
+	'''
+	# Pointing slightly upwards in front (must fail!!) [This test the redundancy of joint 3]
+	x = 0.024 + 0.033 + 0.3
+	y = 0
+	z = 0.115
+	roll = 0
+	pitch = math.pi / 2.0 - 0.57
+	yaw = 0
+	'''
+	
+	'''
+	# Parallel over loading bay
+	x = 0.033 + 0.024 - 0.35
+	y = 0
+	z = 0.15
+	roll = 0
+	pitch = -math.pi / 2.0
+	yaw = 0
+	'''
+	
+	'''
+	# Grasping from far end of loading bay
+	x = 0.033 + 0.024 - 0.38
+	y = 0
+	z = 0.08
+	roll = 0
+	pitch = -math.pi / 2.0 - 0.5
+	yaw = 0
+	'''
+	
+	'''
+	# Grasping from near end of loading bay
+	x = 0.033 + 0.024 - 0.25
+	y = 0
+	z = 0.115
+	roll = 0
+	pitch = -math.pi + 0.02
 	yaw = 0
 	'''
 	
@@ -183,18 +243,8 @@ if __name__ == "__main__":
 	y = 0.2
 	z =  0.115
 	roll = 0
-	pitch = 0
-	yaw = math.pi / 4.0
-	'''
-	
-	'''
-	# Grasp from floor on almost right
-	x =  0.03
-	y = -0.25
-	z = -0.05
-	roll = 0
 	pitch = math.pi / 2.0
-	yaw = 0
+	yaw = math.pi / 4.0
 	'''
 	
 	'''
@@ -207,14 +257,25 @@ if __name__ == "__main__":
 	yaw = 0
 	'''
 	
-	
-	# Grasp from floor in front
-	x =  0.25
-	y =  0.0
+	# Grasp from floor on right side (not working)
+	x =  0.023
+	y = -0.25
 	z = -0.05
 	roll = 0
+	pitch = math.pi - 0.1
+	yaw = -math.pi / 2.0
+	
+	
+	
+	
+	# Pointing to rear left
+	x = 0.023
+	y = 0.033 + 0.3
+	z = 0.115
+	roll = 0
 	pitch = math.pi / 2.0
-	yaw = 0
+	yaw = math.pi / 2.0
+	
 	
 	
 	pose = geometry_msgs.msg.PoseStamped()
