@@ -148,6 +148,16 @@ if __name__ == "__main__":
 	'''
 	
 	'''
+	# Pointing to right
+	x = 0.024
+	y = -0.033 - 0.4
+	z = 0.115
+	roll = 0
+	pitch = math.pi / 2.0
+	yaw = -math.pi / 2.0
+	'''
+	
+	'''
 	# Grasp from floor in front
 	x =  0.25
 	y =  0.0
@@ -188,6 +198,16 @@ if __name__ == "__main__":
 	'''
 	
 	'''
+	# Grasp from floor in right front
+	x =  0.2
+	y = -0.2
+	z = -0.05
+	roll = 0
+	pitch = math.pi
+	yaw = math.pi / 2.0
+	'''
+	
+	'''
 	# Pointing slightly upwards in front (works)
 	x = 0.024 + 0.033 + 0.3
 	y = 0
@@ -198,7 +218,7 @@ if __name__ == "__main__":
 	'''
 	
 	'''
-	# Pointing slightly upwards in front (must fail!!) [This test the redundancy of joint 3]
+	# Pointing slightly upwards in front (must fail!!) [This tests the redundancy of joint 3]
 	x = 0.024 + 0.033 + 0.3
 	y = 0
 	z = 0.115
@@ -208,10 +228,30 @@ if __name__ == "__main__":
 	'''
 	
 	'''
+	# Pointing to rear left
+	x = -0.2
+	y =  0.033 + 0.2
+	z =  0.115
+	roll = 0
+	pitch = math.pi / 2.0
+	yaw = math.pi / 2.0
+	'''
+	
+	'''
+	# Pointing to rear right
+	x = -0.2
+	y = -0.033 - 0.2
+	z =  0.115
+	roll = 0
+	pitch = math.pi / 2.0
+	yaw = -math.pi / 2.0
+	'''
+	
+	'''
 	# Parallel over loading bay
 	x = 0.033 + 0.024 - 0.35
 	y = 0
-	z = 0.15
+	z = 0.08
 	roll = 0
 	pitch = -math.pi / 2.0
 	yaw = 0
@@ -238,17 +278,27 @@ if __name__ == "__main__":
 	'''
 	
 	'''
-	# Pointing back before flipping first joint
-	x = -0.25
-	y = 0.2
+	# Pointing to rear left after flipping first joint
+	x = -0.3
+	y =  0.06
 	z =  0.115
 	roll = 0
 	pitch = math.pi / 2.0
-	yaw = math.pi / 4.0
+	yaw = math.pi / 2.0 + math.pi / 4.0
 	'''
 	
 	'''
-	# Grasp from floor on right side (not working)
+	# Pointing to rear left before flipping first joint
+	x = -0.3
+	y =  0.07
+	z =  0.115
+	roll = 0
+	pitch = math.pi / 2.0
+	yaw = math.pi / 2.0 + math.pi / 4.0
+	'''
+	
+	'''
+	# Grasp from floor on right side
 	x =  0.0
 	y = -0.25
 	z = -0.05
@@ -257,26 +307,15 @@ if __name__ == "__main__":
 	yaw = 0
 	'''
 	
-	# Grasp from floor on right side (not working)
-	x =  0.023
+	'''
+	# Grasp from floor on right rear
+	x = -0.15
 	y = -0.25
 	z = -0.05
 	roll = 0
-	pitch = math.pi - 0.1
-	yaw = -math.pi / 2.0
-	
-	
-	
-	
-	# Pointing to rear left
-	x = 0.023
-	y = 0.033 + 0.3
-	z = 0.115
-	roll = 0
-	pitch = math.pi / 2.0
-	yaw = math.pi / 2.0
-	
-	
+	pitch = math.pi
+	yaw = -math.pi / 2.0 - 0.65
+	'''
 	
 	pose = geometry_msgs.msg.PoseStamped()
 	pose.pose.position.x = x
