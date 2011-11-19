@@ -97,43 +97,29 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	double j5;
 
 
-
-	// Transform position to the first joint
-	KDL::Vector p1;
-	p1.x(g0.p.x() - l0x);	// offset to front
-	p1.y(g0.p.y());		// no offset to side
-	p1.z(g0.p.z() - l0z);	// offset to above
+	// Transform from frame 0 to frame 1
+	KDL::Frame frame0_to_frame1_inv(KDL::Rotation::Identity(), KDL::Vector(-l0x, 0, -l0z));
+	KDL::Frame g1 = frame0_to_frame1_inv * g0;
 
 	// First joint
-	j1 = atan2(p1.y(), p1.x());
+	j1 = atan2(g1.p.y(), g1.p.x());
 	if (offset_joint_1) {
 		if (j1 < 0.0) j1 += M_PI;
 		else j1 -= M_PI;
 	}
 
 
-
-	// Transform position to the second joint
-	KDL::Vector p2;
-	p2.x(p1.x() * cos(j1) + p1.y() * sin(j1));
-	// offset the x value depending on orientation of first link
-	p2.x(p2.x() - l1x);
-	// no offset in the y-value
-	p2.y(p1.x() * sin(j1) + p1.y() * cos(j1));
-	p2.z(p1.z() - l1z);
-
-
-	// Combine the position of the goal in the second joint with the orginal
-	// orientation of the goal
-	KDL::Frame g2_tmp(g0.M, p2);
+	// Transform from frame 1 to frame 2
+	KDL::Frame frame1_to_frame2_inv(KDL::Rotation::RPY(0, 0, -j1), KDL::Vector(-l1x, 0, -l1z));
+	KDL::Frame g2 = frame1_to_frame2_inv * g1;
 
 	// Project the frame into the plane of the arm
-	KDL::Frame g2 = ProjectGoalOrientationIntoArmSubspace(g2_tmp);
+	KDL::Frame g2_proj = ProjectGoalOrientationIntoArmSubspace(g2);
 
 	// Set all values in the frame that are close to zero to exactly zero
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if (abs(g2.M(i, j)) < 0.000001) g2.M(i, j) = 0;
+			if (fabs(g2_proj.M(i, j)) < 0.000001) g2_proj.M(i, j) = 0;
 		}
 	}
 
@@ -146,10 +132,10 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	// * if the angle is less than or equal to zero use +Pi
 	double s1 = sin(j1);
 	double c1 = cos(j1);
-	double r11 = g2.M(0, 0);
-	double r12 = g2.M(0, 1);
-	double r21 = g2.M(1, 0);
-	double r22 = g2.M(1, 1);
+	double r11 = g2_proj.M(0, 0);
+	double r12 = g2_proj.M(0, 1);
+	double r21 = g2_proj.M(1, 0);
+	double r22 = g2_proj.M(1, 1);
 	j5 = atan2(r21 * c1 - r11 * s1, r22 * c1 - r12 * s1);
 	if (offset_joint_5) {
 		if (j5 > 0.0) j5 -= M_PI;
@@ -158,18 +144,15 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 
 	// The sum of joint angles two to four determines the overall "pitch" of the
 	// end effector
-	double r13 = g2.M(0, 2);
-	double r23 = g2.M(1, 2);
-	double r33 = g2.M(2, 2);
+	double r13 = g2_proj.M(0, 2);
+	double r23 = g2_proj.M(1, 2);
+	double r33 = g2_proj.M(2, 2);
 	double j234 = atan2(r13 * c1 + r23 * s1, r33);
 
-	if (!offset_joint_1) {
-		p2.x(p2.x() - d * cos(j234));
-		p2.z(p2.z() + d * sin(j234));
-	} else {
-		p2.x(p2.x() + d * cos(j234));
-		p2.z(p2.z() - d * sin(j234));
-	}
+	KDL::Vector p2 = g2_proj.p;
+
+	p2.x(p2.x() - d * sin(j234));
+	p2.z(p2.z() - d * cos(j234));
 
 
 	// Check if the goal position can be reached at all
@@ -185,15 +168,18 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	if (offset_joint_3) j3 = -j3;
 
 	// Second joint
-	if (j3 >= 0) j2 = -atan2(p2.z(), p2.x()) - atan2(l3 * sin(j3), l2 + l3 * cos(j3));
-	else j2 = -atan2(p2.z(), p2.x()) + atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+	if (!offset_joint_3) {
+		if (j3 >= 0) j2 = -atan2(p2.z(), p2.x()) - atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+		else j2 = -atan2(p2.z(), p2.x()) + atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+	} else {
+		if (j3 >= 0) j2 = -atan2(p2.z(), p2.x()) + atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+		else j2 = -atan2(p2.z(), p2.x()) - atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+	}
 	j2 += M_PI_2;
 
 
 	// Fourth joint, determines the pitch of the gripper
-	j4 = j234 - (j2 - M_PI_2) - j3;
-	if (j4 > M_PI) j4 -= 2 * M_PI;
-
+	j4 = j234 - j2 - j3;
 
 
 	// This IK assumes that the arm points upwards, so we need to consider
@@ -220,8 +206,6 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 
 KDL::Frame ArmAnalyticalInverseKinematics::ProjectGoalOrientationIntoArmSubspace(const KDL::Frame &goal) const
 {
-	double x = goal.p.x();
-	double y = goal.p.y();
 	KDL::Vector y_t_hat = goal.M.UnitY();							// y vector of the rotation matrix
 	KDL::Vector z_t_hat = goal.M.UnitZ();							// z vector of the rotation matrix
 
