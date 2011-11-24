@@ -6,6 +6,8 @@
 		
 		<param name="controller_action_name" type="string" value="/arm_controller/joint_trajectory_action" />
 		<param name="group" type="string" value="arm" />
+		
+		<param name="controller_action_name" type="string" value="/arm_1/joint_trajectory_action" />
 	</node>
 
 </launch>
