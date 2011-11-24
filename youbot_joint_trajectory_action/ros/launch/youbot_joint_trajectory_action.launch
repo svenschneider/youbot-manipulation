@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+	<group ns="arm_1/gripper_controller">
+		<node pkg="youbot_joint_trajectory_action" type="joint_trajectory_action.py" name="joint_trajectory_action" output="screen" />
+	</group>
+
+	<group ns="arm_1/arm_controller">
+		<node pkg="youbot_joint_trajectory_action" type="joint_trajectory_action.py" name="joint_trajectory_action" output="screen" />
+	</group>
+
+</launch>
