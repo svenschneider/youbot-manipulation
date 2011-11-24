@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+	<rosparam file="$(find youbot_joint_trajectory_action)/ros/config/arm_joint_trajectory_action.yaml" command="load" ns="arm_1" />
+	<rosparam file="$(find youbot_joint_trajectory_action)/ros/config/gripper_joint_trajectory_action.yaml" command="load" ns="arm_1" />
+
+</launch>
