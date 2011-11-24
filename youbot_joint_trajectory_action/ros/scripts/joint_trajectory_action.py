@@ -21,6 +21,7 @@ class JointTrajectoryAction:
 		
 		self.joint_names = rospy.get_param("joints")
 		rospy.loginfo("Joints: %s", self.joint_names)
+		self.configuration = [0 for i in range(len(self.joint_names))]
 		
 		# subscriptions
 		rospy.Subscriber('joint_states', sensor_msgs.msg.JointState, self.joint_states_callback)
@@ -51,23 +52,25 @@ class JointTrajectoryAction:
 			joint_value.value = conf[i]
 			joint_value.unit = "rad"
 			joint_positions.positions.append(joint_value)
+		self.pub.publish(joint_positions)
 		
 		# wait to reach the goal position
 		is_timed_out = False
 		start = rospy.Time.now()
 		duration = rospy.Duration(5.0)
 		while True:
-			self.pub.publish(joint_positions)
-			if (is_goal_reached(conf, self.configuration)):
+			if (self.is_goal_reached(conf, self.configuration)):
 				break
 			if (rospy.Time.now() - start > duration):
 				is_timed_out = True
 				break
 		
-		result = control_msgs.msg.FollowJointTrajectoryGoal()
+		result = control_msgs.msg.FollowJointTrajectoryResult()
 		if (is_timed_out):
+			result.error_code = control_msgs.msg.FollowJointTrajectoryResult.INVALID_GOAL
 			self.action.set_aborted(result)
 		else:
+			result.error_code = control_msgs.msg.FollowJointTrajectoryResult.SUCCESSFUL
 			self.action.set_succeeded(result)
 
 
