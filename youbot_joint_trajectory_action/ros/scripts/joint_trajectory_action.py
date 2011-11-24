@@ -15,11 +15,11 @@ class JointTrajectoryAction:
 		self.lock = threading.Lock()
 		self.received_state = False
 		
-		if (not rospy.has_param("joints")):
+		if (not rospy.has_param("joint_trajectory_action/joints")):
 			rospy.logerr("No joints given.")
 			exit(0)
 		
-		self.joint_names = rospy.get_param("joints")
+		self.joint_names = rospy.get_param("joint_trajectory_action/joints")
 		rospy.loginfo("Joints: %s", self.joint_names)
 		self.configuration = [0 for i in range(len(self.joint_names))]
 		
