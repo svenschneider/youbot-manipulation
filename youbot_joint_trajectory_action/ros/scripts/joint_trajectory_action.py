@@ -15,6 +15,10 @@ class JointTrajectoryAction:
 		self.lock = threading.Lock()
 		self.received_state = False
 		
+		if (not rospy.has_param("joint_trajectory_action/unit")):
+			rospy.logerr("No unit given.")
+			exit(0)
+		
 		if (not rospy.has_param("joint_trajectory_action/joints")):
 			rospy.logerr("No joints given.")
 			exit(0)
@@ -22,6 +26,9 @@ class JointTrajectoryAction:
 		self.joint_names = rospy.get_param("joint_trajectory_action/joints")
 		rospy.loginfo("Joints: %s", self.joint_names)
 		self.configuration = [0 for i in range(len(self.joint_names))]
+		
+		self.unit = rospy.get_param("joint_trajectory_action/unit")
+		rospy.loginfo("Unit: %s", self.unit)
 		
 		# subscriptions
 		rospy.Subscriber('joint_states', sensor_msgs.msg.JointState, self.joint_states_callback)
@@ -50,7 +57,7 @@ class JointTrajectoryAction:
 			joint_value = brics_actuator.msg.JointValue()
 			joint_value.joint_uri = self.joint_names[i]
 			joint_value.value = conf[i]
-			joint_value.unit = "rad"
+			joint_value.unit = self.unit
 			joint_positions.positions.append(joint_value)
 		self.pub.publish(joint_positions)
 		

@@ -1,4 +1,5 @@
 gripper_controller:
+  unit: m
   joint_trajectory_action:
     joints:
       - gripper_finger_joint_l
