@@ -83,7 +83,7 @@ class JointTrajectoryAction:
 
 	def is_goal_reached(self, goal, conf):
 		for i in range(len(self.joint_names)):
-			if (abs(goal[i] - conf[i]) > 0.01):
+			if (abs(goal[i] - conf[i]) > 0.05):
 				return False
 		return True
 
