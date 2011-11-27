@@ -132,10 +132,10 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	// * if the angle is less than or equal to zero use +Pi
 	double s1 = sin(j1);
 	double c1 = cos(j1);
-	double r11 = g2_proj.M(0, 0);
-	double r12 = g2_proj.M(0, 1);
-	double r21 = g2_proj.M(1, 0);
-	double r22 = g2_proj.M(1, 1);
+	double r11 = g1.M(0, 0);
+	double r12 = g1.M(0, 1);
+	double r21 = g1.M(1, 0);
+	double r22 = g1.M(1, 1);
 	j5 = atan2(r21 * c1 - r11 * s1, r22 * c1 - r12 * s1);
 	if (offset_joint_5) {
 		if (j5 > 0.0) j5 -= M_PI;
@@ -206,8 +206,8 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	solution(3) = j4 + offset4;
 	solution(4) = offset5 - j5;
 
-	ROS_INFO("Configuration without offsets: %f, %f, %f, %f, %f", j1, j2, j3, j4, j5);
-	ROS_INFO("Configuration with offsets: %f, %f, %f, %f, %f", solution(0), solution(1), solution(2), solution(3), solution(4));
+	ROS_DEBUG("Configuration without offsets: %f, %f, %f, %f, %f", j1, j2, j3, j4, j5);
+	ROS_DEBUG("Configuration with offsets: %f, %f, %f, %f, %f", solution(0), solution(1), solution(2), solution(3), solution(4));
 
 	return solution;
 }
