@@ -168,6 +168,16 @@ if __name__ == "__main__":
 	'''
 	
 	'''
+	# Grasp from floor in front with rotated last joint
+	x =  0.25
+	y =  0.0
+	z = -0.05
+	roll = 0
+	pitch = math.pi
+	yaw = math.pi / 4.0
+	'''
+	
+	'''
 	# Grasp from floor on right
 	x =  0.024
 	y = -0.25
@@ -195,6 +205,16 @@ if __name__ == "__main__":
 	roll = 0
 	pitch = math.pi
 	yaw = math.pi / 2.0
+	'''
+	
+	'''
+	# Grasp from floor in left front (gripper aligned with arm)
+	x =  0.2
+	y =  0.2
+	z = -0.05
+	roll = 0
+	pitch = math.pi
+	yaw = math.pi / 4.0
 	'''
 	
 	'''
@@ -303,8 +323,8 @@ if __name__ == "__main__":
 	y = -0.25
 	z = -0.05
 	roll = 0
-	pitch = math.pi / 2.0
-	yaw = 0
+	pitch = math.pi
+	yaw = math.pi / 2.0
 	'''
 	
 	'''
@@ -314,8 +334,28 @@ if __name__ == "__main__":
 	z = -0.05
 	roll = 0
 	pitch = math.pi
-	yaw = -math.pi / 2.0 - 0.65
+	yaw = 0
 	'''
+	
+	'''
+	# Pointing up in left front
+	x = 0.024 + 0.033 + 0.2
+	y = 0.1
+	z = 0.4
+	roll = 0
+	pitch = 0
+	yaw = 0
+	'''
+	
+	
+	# Pointing upwards (internal home position of inverse kinematics)
+	x = 0.024 + 0.033
+	y = 0
+	z = 0.535
+	roll = 0
+	pitch = 0
+	yaw = 0
+	
 	
 	pose = geometry_msgs.msg.PoseStamped()
 	pose.pose.position.x = x
