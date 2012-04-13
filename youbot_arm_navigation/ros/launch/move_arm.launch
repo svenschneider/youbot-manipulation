@@ -4,10 +4,8 @@
 	<node pkg="move_arm" type="move_arm_simple_action" name="youbot_move_arm" output="screen">
 		<remap from="arm_ik" to="youbot_arm_kinematics/get_constraint_aware_ik" />
 		
-		<param name="controller_action_name" type="string" value="/arm_controller/joint_trajectory_action" />
+		<param name="controller_action_name" type="string" value="/arm_1/arm_controller/joint_trajectory_action" />
 		<param name="group" type="string" value="arm" />
-		
-		<param name="controller_action_name" type="string" value="/arm_1/joint_trajectory_action" />
 	</node>
 
 </launch>
