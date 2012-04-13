@@ -11,6 +11,7 @@ import kinematics_msgs.srv
 import kinematics_msgs.msg
 import sensor_msgs.msg
 import arm_navigation_msgs.msg
+import arm_navigation_msgs.srv
 
 
 class KinematicsTest:
@@ -36,6 +37,14 @@ class KinematicsTest:
 		rospy.wait_for_service('/youbot_arm_kinematics/get_constraint_aware_ik')
 		self.ciks = rospy.ServiceProxy('/youbot_arm_kinematics/get_constraint_aware_ik', kinematics_msgs.srv.GetConstraintAwarePositionIK)
 		rospy.loginfo("Service 'get_constraint_aware_ik' is ready")
+		
+		rospy.loginfo("Waiting for 'set_planning_scene_diff' service")
+		rospy.wait_for_service('/environment_server/set_planning_scene_diff')
+		self.planning_scene = rospy.ServiceProxy('/environment_server/set_planning_scene_diff', arm_navigation_msgs.srv.SetPlanningSceneDiff)
+		rospy.loginfo("Service 'set_planning_scene_diff'")
+		
+		# a planning scene must be set before using the constraint-aware ik!
+		self.send_planning_scene()
 
 
 	#callback function: when a joint_states message arrives, save the values
@@ -46,6 +55,13 @@ class KinematicsTest:
 				if(msg.name[i] == joint_name):
 					self.configuration[k] = msg.position[i]
 		self.received_state = True
+
+
+	def send_planning_scene(self):
+		rospy.loginfo("Sending planning scene")
+		
+		req = arm_navigation_msgs.srv.SetPlanningSceneDiffRequest()
+		res = self.planning_scene.call(req)
 
 
 	def call_fk_solver(self, configuration):
@@ -73,6 +89,7 @@ class KinematicsTest:
 		while(not self.received_state):
 			time.sleep(0.1)
 		req = kinematics_msgs.srv.GetPositionIKRequest()
+		req.timeout = rospy.Duration(0.5)
 		req.ik_request.ik_link_name = "arm_link_5"
 		req.ik_request.ik_seed_state.joint_state.name = self.joint_names
 		req.ik_request.ik_seed_state.joint_state.position = self.configuration
