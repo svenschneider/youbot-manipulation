@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+	<include file="$(find youbot_manipulation_examples)/ros/launch/youbot_oodl_driver.launch" />
+	<include file="$(find youbot_manipulation_examples)/ros/launch/youbot_joint_state_publisher.launch" />
+	<include file="$(find youbot_joint_trajectory_action)/ros/launch/youbot_joint_trajectory_action.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/arm_navigation.launch" />
+
+</launch>

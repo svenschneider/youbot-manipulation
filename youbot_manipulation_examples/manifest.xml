@@ -1,0 +1,23 @@
+<package>
+  <description brief="youbot_manipulation_examples">
+
+     This package includes examples on how to use the arm kinematics and motion
+     planners on the youBot.
+
+  </description>
+  <author>Sven Schneider</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/youbot_manipulation_examples</url>
+  <depend package="rospy"/>
+  <depend package="actionlib"/>
+  <depend package="tf"/>
+  <depend package="geometry_msgs"/>
+  <depend package="sensor_msgs"/>
+  <depend package="control_msgs"/>
+  <depend package="kinematics_msgs"/>
+  <depend package="trajectory_msgs"/>
+  <depend package="arm_navigation_msgs"/>
+  <depend package="brics_actuator"/>
+
+</package>

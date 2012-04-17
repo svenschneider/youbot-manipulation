@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib; roslib.load_manifest('youbot_arm_kinematics')
+import roslib; roslib.load_manifest('youbot_manipulation_examples')
 
 import rospy
 import threading
