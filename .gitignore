@@ -9,3 +9,5 @@ build
 lib
 /Debug
 *.pyc
+msg_gen
+srv_gen
