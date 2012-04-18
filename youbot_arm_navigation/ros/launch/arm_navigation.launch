@@ -12,5 +12,6 @@
 	<include file="$(find youbot_arm_navigation)/ros/launch/ompl_planning.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter_server.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/move_arm.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/interpolated_ik_motion_planning.launch" />
 
 </launch>
