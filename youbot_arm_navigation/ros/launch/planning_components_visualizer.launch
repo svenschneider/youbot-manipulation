@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <launch>
 
+	<include file="$(find youbot_description)/launch/youbot_description.launch" />
+	
 	<include file="$(find planning_environment)/launch/planning_environment_visualization_prerequisites.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/planning_environment.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/constraint_aware_kinematics.launch" />
