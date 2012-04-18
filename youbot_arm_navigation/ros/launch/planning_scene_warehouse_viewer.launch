@@ -10,7 +10,7 @@
 	<include file="$(find youbot_arm_navigation)/ros/launch/planning_environment.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/constraint_aware_kinematics.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/ompl_planning.launch" />
-	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter_server.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/interpolated_ik_motion_planning.launch" />
 
 	<!-- database -->
@@ -57,7 +57,7 @@
 	<!-- Interpolates between end effector positions for the right arm -->
 	<param name="right_interpolate_service_name" value="/interpolated_ik_motion_plan" />
 	<!-- Called to smooth and optimize a planner trajectory -->
-	<param name="trajectory_filter_service_name" value="/trajectory_filter_server/filter_trajectory_with_constraints" />
+	<param name="trajectory_filter_service_name" value="/trajectory_filter/filter_trajectory_with_constraints" />
 	<!-- Called to get the proximity space -->
 	<param name="proximity_space_service_name" value="none" />
 	<!-- Called to get collision validity of robot state -->

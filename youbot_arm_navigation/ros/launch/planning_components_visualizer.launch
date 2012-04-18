@@ -7,7 +7,7 @@
 	<include file="$(find youbot_arm_navigation)/ros/launch/planning_environment.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/constraint_aware_kinematics.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/ompl_planning.launch" />
-	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter_server.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter.launch" />
 	
 	<node pkg="rviz" type="rviz" name="rviz_planning_components" args="-d $(find youbot_arm_navigation)/ros/config/planning_components_visualizer.vcg" />
 	<node pkg="move_arm" type="planning_components_visualizer" name="planning_components_visualizer" output="screen" />
