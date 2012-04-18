@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node pkg="robot_self_filter" type="self_filter" name="self_filter" output="screen">
+		<remap from="cloud_in" to="/camera/depth/points" />
+		<remap from="cloud_out" to="/camera/depth/points_filtered" />
+		
+		<param name="sensor_frame" type="string" value="/openni_camera" />
+		<param name="subsample_value" type="double" value=".02"/>
+		
+		<rosparam command="load" file="$(find youbot_arm_navigation)/ros/config/self_filter.yaml" />
+	</node>
+
+	<node pkg="collider" type="collider_node" name="collider_node" output="screen">
+		<param name="fixed_frame" type="string" value="base_link" />
+		<param name="resolution" type="double" value="0.025" />
+		<param name="max_range" type="double" value="3" />
+		<param name="publish_static_over_dynamic_map" value="true" />
+		<param name="sensor_model_hit" value="0.8" />
+		<param name="sensor_model_miss" value="0.31" />
+		<param name="sensor_model_min" value="0.12" />
+		<param name="sensor_model_max" value="0.95" />
+		
+		<remap from="collision_map_out" to="collision_map_occ" />
+		<remap from="point_cloud_out" to="octomap_point_cloud" />
+		
+		<rosparam command="load" file="$(find youbot_arm_navigation)/ros/config/collision_map_sources.yaml" />
+		<rosparam command="load" file="$(find youbot_arm_navigation)/ros/config/self_filter.yaml" />
+	</node>
+
+</launch>
