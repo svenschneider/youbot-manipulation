@@ -102,13 +102,13 @@ class IKUtilities:
         #good additional start angles to try for IK for the PR2, used  
         #if no start angles were provided 
         if start_angles_list == []: 
-            self.start_angles_list = [[-0.697, 1.002, 0.021, -0.574, 0.286, -0.095, 1.699], 
-                                      [-1.027, 0.996, 0.034, -0.333, -3.541, -0.892, 1.694], 
-                                      [0.031, -0.124, -2.105, -1.145, -1.227, -1.191, 2.690], 
-                                      [0.410, 0.319, -2.231, -0.839, -2.751, -1.763, 5.494], 
-                                      [0.045, 0.859, 0.059, -0.781, -1.579, -0.891, 7.707], 
-                                      [0.420, 0.759, 0.014, -1.099, -3.204, -1.907, 8.753], 
-                                      [-0.504, 1.297, -1.857, -1.553, -4.453, -1.308, 9.572]] 
+            self.start_angles_list = [[-0.697, 1.002, 0.021, -0.574, 0.286], 
+                                      [-1.027, 0.996, 0.034, -0.333, -3.541], 
+                                      [0.031, -0.124, -2.105, -1.145, -1.227], 
+                                      [0.410, 0.319, -2.231, -0.839, -2.751], 
+                                      [0.045, 0.859, 0.059, -0.781, -1.579], 
+                                      [0.420, 0.759, 0.014, -1.099, -3.204], 
+                                      [-0.504, 1.297, -1.857, -1.553, -4.453]] 
         else: 
             self.start_angles_list = start_angles_list 
 
@@ -487,7 +487,7 @@ class IKUtilities:
     #max_joint_vels is a list of maximum velocities to move the arm joints
     #max_joint_accs is a list of maximum accelerations to move the arm joints (can be ignored)
     #starts and ends in stop
-    def trajectory_times_and_vels(self, joint_path, max_joint_vels = [.2]*7, max_joint_accs = [.5]*7):
+    def trajectory_times_and_vels(self, joint_path, max_joint_vels = [.2]*5, max_joint_accs = [.5]*5):
 
         #min time for each segment
         min_segment_time = .01
@@ -500,12 +500,12 @@ class IKUtilities:
 
         #sanity-check max vels and accelerations
         if not max_joint_vels:
-            max_joint_vels = [.2]*7
+            max_joint_vels = [.2]*5
         elif len(max_joint_vels) != num_joints:
             rospy.logerr("invalid max_joint_vels!")
             return ([], [])
         if not max_joint_accs:
-            max_joint_accs = [.5]*7
+            max_joint_accs = [.5]*5
         elif len(max_joint_accs) != num_joints:
             rospy.logerr("invalid max_joint_accs!")
             return ([], [])
@@ -636,7 +636,7 @@ class IKUtilities:
                 (colliding_solution, error_code) = self.run_ik(pose_stamped, start_angles, self.link_name, collision_aware = 0, IK_robot_state = IK_robot_state)
                 if not colliding_solution:
                     rospy.loginfo("non-collision-aware IK solution not found for step %d!"%stepind)
-                    trajectory.append([0.]*7)
+                    trajectory.append([0.]*5)
                     error_codes.append(3)          #3=out of reach
 
                 else:
@@ -670,7 +670,7 @@ class IKUtilities:
                 #check if we should abort due to finding too many invalid points
                 if error_codes[-1] > 0 and steps_before_abort >= 0 and stepind >= steps_before_abort:
                     rospy.loginfo("aborting due to too many invalid steps")
-                    trajectory.extend([[0.]*7 for i in range(len(steps)-stepind-1)])
+                    trajectory.extend([[0.]*5 for i in range(len(steps)-stepind-1)])
                     error_codes.extend([4]*(len(steps)-stepind-1)) #4=aborted before checking
                     break
 
@@ -706,7 +706,7 @@ if __name__ == '__main__':
         (trajectory, error_codes) = ik_utilities.check_cartesian_path(start_pose, \
                       end_pose, start_angles, pos_spacing, rot_spacing, consistent_angle, collision_aware, collision_check_resolution, \
                       steps_before_abort, num_steps, use_additional_start_angles = 2)
-        (times, vels) = ik_utilities.trajectory_times_and_vels(trajectory, [.2]*7, [.5]*7) 
+        (times, vels) = ik_utilities.trajectory_times_and_vels(trajectory, [.2]*5, [.5]*5) 
 
         rospy.loginfo("trajectory:")
         for ind in range(len(trajectory)):
@@ -723,7 +723,7 @@ if __name__ == '__main__':
 
         #side grasp
         #start_angles = [-0.447, -0.297, -2.229, -0.719, 0.734, -1.489, 1.355]
-        start_angles = [0]*7
+        start_angles = [0]*5
         sideapproachmat = numpy.array([[0., -1., 0., 0.],  
                                        [1., 0., 0., 0.],
                                        [0., 0., 1., 0.],
@@ -741,7 +741,7 @@ if __name__ == '__main__':
 
 
         #top to side grasp
-        start_angles = [0.]*7
+        start_angles = [0.]*5
         approachpos = [.62, -.05, .85]
         approachquat = [-0.5, 0.5, 0.5, 0.5]  #from the top
         grasppos = [.62, -.05, .75]
@@ -759,7 +759,7 @@ if __name__ == '__main__':
         check_cartesian_path_lists(ik_utilities, approachpos, approachquat, grasppos, graspquat, start_angles, num_steps = 5, consistent_angle = math.pi/4)
 
         #top grasp through the table
-        start_angles = [0.]*7
+        start_angles = [0.]*5
         approachpos = [.62, -.05, .65]
         approachquat = [-0.5, 0.5, 0.5, 0.5]  #from the top
         grasppos = [.62, -.05, .25]
@@ -803,7 +803,7 @@ if __name__ == '__main__':
         #run inverse kinematics on that pose to get a set of angles
         #that also make that Cartesian pose (starting from all 0 angles)
         rospy.loginfo("IK request: pos "+pplist(pos1list)+" rot "+pplist(rot1list))
-        (ik_angles, error_code) = ik_utilities.run_ik(fk_pose, [0]*7, ik_utilities.link_name, collision_aware)
+        (ik_angles, error_code) = ik_utilities.run_ik(fk_pose, [0]*5, ik_utilities.link_name, collision_aware)
         if not ik_angles:
             
             #test check_state_validity to see if it is in agreement about random_angles being in collision
@@ -847,7 +847,7 @@ if __name__ == '__main__':
         pose_stamped = ik_utilities.lists_to_pose_stamped([.62, -.05, .5], [.5, -.5, -.5, -.5], 'base_link', 'base_link')
         print "link name:", ik_utilities.link_name
         print "desired pose:\n", pose_stamped
-        (solution, error_code) = ik_utilities.run_ik(pose_stamped, [0]*7, ik_utilities.link_name, 0)
+        (solution, error_code) = ik_utilities.run_ik(pose_stamped, [0]*5, ik_utilities.link_name, 0)
         print "solution:", solution
 
 

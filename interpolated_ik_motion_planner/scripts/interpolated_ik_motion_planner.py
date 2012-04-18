@@ -136,10 +136,10 @@ class InterpolatedIKService:
         self.start_from_end = rospy.get_param(self.node_name+'/start_from_end', 0)
 
         #max joint velocities to use when calculating times and vels for the trajectory
-        self.max_joint_vels = rospy.get_param(self.node_name+'/max_joint_vels', [.1]*7)
+        self.max_joint_vels = rospy.get_param(self.node_name+'/max_joint_vels', [.1]*5)
 
         #max joint accelerations to use when calculating times and vels for the trajectory
-        self.max_joint_accs = rospy.get_param(self.node_name+'/max_joint_vels', [.25]*7)
+        self.max_joint_accs = rospy.get_param(self.node_name+'/max_joint_vels', [.25]*5)
 
         #initialize an IKUtilities class object
         if which_arm == 'r':
@@ -318,7 +318,7 @@ class InterpolatedIKService:
                     break
         (times, vels) = self.ik_utils.trajectory_times_and_vels(trajectory[start_ind:stop_ind], self.max_joint_vels, self.max_joint_accs)
         times = [0]*start_ind + times + [0]*(len(error_codes)-stop_ind)
-        vels = [[0]*7]*start_ind + vels + [[0]*7]*(len(error_codes)-stop_ind)
+        vels = [[0]*5]*start_ind + vels + [[0]*5]*(len(error_codes)-stop_ind)
 
         rospy.logdebug("trajectory:")
         for ind in range(len(trajectory)):
