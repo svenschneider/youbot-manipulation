@@ -2,3 +2,8 @@ groups:
   - name: arm
     base_link: arm_link_0
     tip_link: arm_link_5
+    
+  - name: end_effector
+    joints:
+      - gripper_finger_joint_r
+      - gripper_finger_joint_l
