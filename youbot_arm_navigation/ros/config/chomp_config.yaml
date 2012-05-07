@@ -1,0 +1,53 @@
+collision_clearance: 0.15
+
+collision_links:
+  gripper_palm_link:
+    link_radius: 0.05
+    link_extension: 0.03
+  gripper_finger_link_l:
+    link_radius: 0.03
+    link_extension: 0.01
+  gripper_finger_link_r:
+    link_radius: 0.03
+    link_extension: 0.01
+
+joint_costs:
+  arm_joint_1: 1.0
+  arm_joint_2: 1.0
+  arm_joint_3: 1.0
+  arm_joint_4: 1.0
+  arm_joint_5: 1.0
+
+joint_velocity_limits:
+  arm_joint_1: 1.57079632679
+  arm_joint_2: 1.57079632679
+  arm_joint_3: 1.57079632679
+  arm_joint_4: 1.57079632679
+  arm_joint_5: 1.57079632679
+  
+reference_frame: base_link
+
+collision_space:
+  size_x: 2.0
+  size_y: 2.5
+  size_z: 2.2
+  origin_x: -0.5
+  origin_y: -1.5
+  origin_z: -0.3
+  resolution: 0.01
+  field_bias_x: 0.0
+  field_bias_y: 0.0
+  field_bias_z: 0.0
+
+chomp_collision_operations:
+  - object1: arm
+    object2: arm
+    operation: disable
+
+  - object1: arm
+    object2: end_effector
+    operation: disable
+
+  - object1: arm
+    object2: base_link
+    operation: disable
