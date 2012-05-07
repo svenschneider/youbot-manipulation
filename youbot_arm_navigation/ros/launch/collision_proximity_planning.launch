@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node pkg="collision_proximity_planner" type="collision_proximity_planner" name="collision_proximity_planner" respawn="false" output="screen" />
+
+</launch>
