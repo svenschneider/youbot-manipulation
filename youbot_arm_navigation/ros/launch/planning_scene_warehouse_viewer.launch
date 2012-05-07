@@ -9,7 +9,10 @@
 
 	<include file="$(find youbot_arm_navigation)/ros/launch/planning_environment.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/constraint_aware_kinematics.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/collision_proximity.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/ompl_planning.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/collision_proximity_planning.launch" />
+	<include file="$(find youbot_arm_navigation)/ros/launch/chomp_planning.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/trajectory_filter.launch" />
 	<include file="$(find youbot_arm_navigation)/ros/launch/interpolated_ik_motion_planning.launch" />
 
@@ -59,11 +62,11 @@
 	<!-- Called to smooth and optimize a planner trajectory -->
 	<param name="trajectory_filter_service_name" value="/trajectory_filter/filter_trajectory_with_constraints" />
 	<!-- Called to get the proximity space -->
-	<param name="proximity_space_service_name" value="none" />
+	<param name="proximity_space_service_name" value="/collision_proximity/get_distance_aware_plan" />
 	<!-- Called to get collision validity of robot state -->
-	<param name="proximity_space_validity_name" value="none"/>
+	<param name="proximity_space_validity_name" value="/collision_proximity/get_state_validity"/>
 	<!-- Called to produce a plan that pulls trajectories out of collision -->
-	<param name="proximity_space_planner_name" value="none"/>
+	<param name="proximity_space_planner_name" value="/collision_proximity_planner/plan"/>
 	<!-- Called to send the planning scene to the environment server -->
 	<param name="set_planning_scene_diff_name" value="/environment_server/set_planning_scene_diff"/>
 	
