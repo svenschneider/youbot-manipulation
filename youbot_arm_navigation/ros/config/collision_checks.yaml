@@ -1,3 +1,8 @@
+distance_collision_operations:
+  - object1: arm
+    object2: arm
+    operation: disable
+
 default_collision_operations:
   - object1: base_footprint
     object2: base_link
