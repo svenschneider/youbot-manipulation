@@ -14,7 +14,6 @@
   <depend package="pluginlib"/>
   <depend package="kdl"/>
   <depend package="kdl_parser"/>
-  <depend package="eigen"/>
   <depend package="urdf"/>
   <depend package="sensor_msgs"/>
   <depend package="kinematics_msgs" />
