@@ -61,7 +61,7 @@ int InverseKinematicsSolver::CartToJnt(const KDL::JntArray& q_init,
 		KDL::JntArray &q_out)
 {
 	std::vector<KDL::JntArray> solution_ik;
-	int res = _ik.CartToJnt(q_init, p_in, solution_ik);
+	_ik.CartToJnt(q_init, p_in, solution_ik);
 
 	if (solution_ik.empty()) return -1;
 
