@@ -220,6 +220,54 @@ int InverseKinematicsSolver::CartToJntSearch(const KDL::JntArray& q_in,
 
 int InverseKinematicsSolver::CartToJntSearch(const KDL::JntArray& q_in,
 		const KDL::Frame& p_in,
+		const double& consistency_limit,
+		KDL::JntArray &q_out,
+		const double &timeout)
+{
+	KDL::JntArray q_init = q_in;
+	double initial_guess = q_init(_free_angle);
+
+	ros::Time start_time = ros::Time::now();
+	double loop_time = 0;
+	int count = 0;
+
+	double max_limit = fmin(_solver_info.limits[_free_angle].max_position, initial_guess + consistency_limit);
+	double min_limit = fmax(_solver_info.limits[_free_angle].min_position, initial_guess - consistency_limit);
+
+	int num_positive_increments = (int)((max_limit - initial_guess) / _search_discretization_angle);
+	int num_negative_increments = (int)((initial_guess - min_limit) / _search_discretization_angle);
+
+	ROS_DEBUG("%f %f %f %d %d \n\n", initial_guess, _solver_info.limits[_free_angle].max_position, _solver_info.limits[_free_angle].min_position, num_positive_increments, num_negative_increments);
+
+	while (loop_time < timeout) {
+		if (CartToJnt(q_init, p_in, q_out) > 0) {
+			return 1;
+		}
+
+		if (!getCount(count, num_positive_increments, -num_negative_increments)) {
+			return -1;
+		}
+
+		q_init(_free_angle) = initial_guess + _search_discretization_angle * count;
+		ROS_DEBUG("%d, %f", count, q_init(_free_angle));
+
+		loop_time = (ros::Time::now() - start_time).toSec();
+	}
+
+	if (loop_time >= timeout) {
+		ROS_DEBUG("IK Timed out in %f seconds", timeout);
+		return TIMED_OUT;
+	} else {
+		ROS_DEBUG("No IK solution was found");
+		return NO_IK_SOLUTION;
+	}
+
+	return NO_IK_SOLUTION;
+}
+
+
+int InverseKinematicsSolver::CartToJntSearch(const KDL::JntArray& q_in,
+		const KDL::Frame& p_in,
 		KDL::JntArray &q_out,
 		const double &timeout,
 		arm_navigation_msgs::ArmNavigationErrorCodes &error_code,
@@ -255,6 +303,83 @@ int InverseKinematicsSolver::CartToJntSearch(const KDL::JntArray& q_in,
 			if (callback_check) {
 				solution_callback(q_out,p_in,error_code);
 				if (error_code.val == error_code.SUCCESS) {
+					return 1;
+				}
+			} else {
+				error_code.val = error_code.SUCCESS;
+				return 1;
+			}
+		}
+
+		if (!getCount(count, num_positive_increments, -num_negative_increments)) {
+			error_code.val = error_code.NO_IK_SOLUTION;
+			return -1;
+		}
+
+		q_init(_free_angle) = initial_guess + _search_discretization_angle * count;
+		ROS_DEBUG("Redundancy search, index:%d, free angle value: %f", count, q_init(_free_angle));
+
+		loop_time = (ros::Time::now() - start_time).toSec();
+	}
+
+	if (loop_time >= timeout) {
+		ROS_DEBUG("IK Timed out in %f seconds",timeout);
+		error_code.val = error_code.TIMED_OUT;
+	} else {
+		ROS_DEBUG("No IK solution was found");
+		error_code.val = error_code.NO_IK_SOLUTION;
+	}
+
+	return -1;
+}
+
+
+int InverseKinematicsSolver::CartToJntSearch(const KDL::JntArray& q_in,
+		const KDL::Frame& p_in,
+		KDL::JntArray &q_out,
+		const double &timeout,
+		const double &max_consistency,
+		arm_navigation_msgs::ArmNavigationErrorCodes &error_code,
+		const boost::function<void(const KDL::JntArray&, const KDL::Frame&, arm_navigation_msgs::ArmNavigationErrorCodes &)> &desired_pose_callback,
+		const boost::function<void(const KDL::JntArray&, const KDL::Frame&, arm_navigation_msgs::ArmNavigationErrorCodes &)> &solution_callback)
+{
+	KDL::JntArray q_init = q_in;
+	double initial_guess = q_init(_free_angle);
+
+	ros::Time start_time = ros::Time::now();
+	double loop_time = 0;
+	int count = 0;
+
+	double max_limit = fmin(_solver_info.limits[_free_angle].max_position, initial_guess + max_consistency);
+	double min_limit = fmax(_solver_info.limits[_free_angle].min_position, initial_guess - max_consistency);
+
+	ROS_DEBUG_STREAM("Initial guess " << initial_guess << " max " << max_consistency);
+	ROS_DEBUG_STREAM("Max limit " << max_limit << " " << _solver_info.limits[_free_angle].max_position << " " << initial_guess + max_consistency);
+	ROS_DEBUG_STREAM("Min limit " << min_limit << " " << _solver_info.limits[_free_angle].min_position << " " << initial_guess - max_consistency);
+
+	int num_positive_increments = (int)((max_limit - initial_guess) / _search_discretization_angle);
+	int num_negative_increments = (int)((initial_guess - min_limit) / _search_discretization_angle);
+	ROS_DEBUG("%f %f %f %d %d \n\n", initial_guess, _solver_info.limits[_free_angle].max_position, _solver_info.limits[_free_angle].min_position, num_positive_increments, num_negative_increments);
+
+	if (!desired_pose_callback.empty()) {
+		desired_pose_callback(q_init, p_in, error_code);
+	}
+
+	if(error_code.val != error_code.SUCCESS) {
+		return -1;
+	}
+
+	bool callback_check = true;
+	if (solution_callback.empty()) {
+		callback_check = false;
+	}
+
+	while (loop_time < timeout) {
+		if (CartToJnt(q_init, p_in, q_out) > 0) {
+			if (callback_check) {
+				solution_callback(q_out,p_in,error_code);
+				if (error_code.val == error_code.SUCCESS) {
+					ROS_DEBUG_STREAM("Difference is " << abs(q_in(_free_angle)-q_out(_free_angle)));
 					return 1;
 				}
 			} else {
