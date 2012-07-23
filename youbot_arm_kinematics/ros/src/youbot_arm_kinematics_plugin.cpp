@@ -72,6 +72,8 @@ namespace youbot_arm_kinematics {
                           const double& search_discretization)
 	{
         setValues(group_name, base_name, tip_name,search_discretization);
+        _root_name = base_name;
+
 		urdf::Model robot_model;
 		std::string xml_string;
 		ros::NodeHandle private_handle("~/" + group_name);
@@ -86,15 +88,15 @@ namespace youbot_arm_kinematics {
 		}
 
 		// setup the IK
-		// _ik = boost::shared_ptr<InverseKinematics>(new ArmKdlInverseKinematics(robot_model, xml_string, _root_name, tip_name));
-		_ik = boost::shared_ptr<InverseKinematics>(new ArmAnalyticalInverseKinematics(robot_model, xml_string, _root_name, tip_name));
+		// _ik = boost::shared_ptr<InverseKinematics>(new ArmKdlInverseKinematics(robot_model, xml_string, base_name, tip_name));
+		_ik = boost::shared_ptr<InverseKinematics>(new ArmAnalyticalInverseKinematics(robot_model, xml_string, base_name, tip_name));
 
 		// setup the IK solver
 		_ik_solver = boost::shared_ptr<InverseKinematicsSolver>(new InverseKinematicsSolver(*_ik, search_discretization, _free_angle));
 		_ik_solver->getSolverInfo(_ik_solver_info);
 
 		// setup the FK solver
-		_fk_solver = boost::shared_ptr<ForwardKinematics>(new ArmKdlForwardKinematics(robot_model, xml_string, _root_name, tip_name));
+		_fk_solver = boost::shared_ptr<ForwardKinematics>(new ArmKdlForwardKinematics(robot_model, xml_string, base_name, tip_name));
 		_fk_solver->getSolverInfo(_fk_solver_info);
 
 
