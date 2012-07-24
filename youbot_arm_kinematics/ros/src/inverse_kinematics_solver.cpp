@@ -411,6 +411,18 @@ int InverseKinematicsSolver::CartToJntSearch(const KDL::JntArray& q_in,
 }
 
 
+unsigned int InverseKinematicsSolver::getFreeAngle() const
+{
+	return _free_angle;
+}
+
+
+void InverseKinematicsSolver::setFreeAngle(const unsigned int& free_angle)
+{
+	_free_angle = free_angle;
+}
+
+
 double InverseKinematicsSolver::computeEuclideanDistance(
 		const KDL::JntArray &array_1,
 		const KDL::JntArray &array_2)

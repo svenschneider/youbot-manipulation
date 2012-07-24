@@ -57,31 +57,32 @@ PLUGINLIB_DECLARE_CLASS(youbot_arm_kinematics, YouBotArmKinematicsPlugin, youbot
 
 namespace youbot_arm_kinematics {
 
-	ArmKinematicsPlugin::ArmKinematicsPlugin():_active(false){}
+	ArmKinematicsPlugin::ArmKinematicsPlugin() : _active(false)
+	{
+	}
 
-    bool ArmKinematicsPlugin::isActive()
-    {
-        if(_active)
-            return true;
-        return false;
-    }
+
+	bool ArmKinematicsPlugin::isActive()
+	{
+		return _active;
+	}
 
 	bool ArmKinematicsPlugin::initialize(const std::string& group_name,
-                          const std::string& base_name,
-                          const std::string& tip_name,
-                          const double& search_discretization)
+			const std::string& base_name,
+			const std::string& tip_name,
+			const double& search_discretization)
 	{
-        setValues(group_name, base_name, tip_name,search_discretization);
-        _root_name = base_name;
+		setValues(group_name, base_name, tip_name,search_discretization);
+		_root_name = base_name;
 
 		urdf::Model robot_model;
 		std::string xml_string;
 		ros::NodeHandle private_handle("~/" + group_name);
 
-        _node_handle.param<int>("free_angle", _free_angle, 2);
-	
+		_node_handle.param<int>("free_angle", _free_angle, 2);
+
 		// load and process the robot description
-        _dimension = 5;
+		_dimension = 5;
 		while (!pr2_arm_kinematics::loadRobotModel(private_handle, robot_model, xml_string) && _node_handle.ok()) {  
 			ROS_ERROR("Could not load robot model. Are you sure the robot model is on the parameter server?");
 			ros::Duration(0.5).sleep();
@@ -218,16 +219,15 @@ namespace youbot_arm_kinematics {
 	}
 
 
-    bool ArmKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
+	bool ArmKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
 			const std::vector<double> &ik_seed_state,
 			const double &timeout,
-            const unsigned int& redundancy,
-            const double &consistency_limit,
+			const unsigned int& redundancy,
+			const double &consistency_limit,
 			std::vector<double> &solution,
 			int &error_code)
 	{
-		if (!_active) 
-        {
+		if (!_active) {
 			ROS_ERROR("kinematics not active");
 			error_code = kinematics::INACTIVE;
 			return false;
@@ -235,47 +235,37 @@ namespace youbot_arm_kinematics {
 		KDL::Frame pose_desired;
 		tf::PoseMsgToKDL(ik_pose, pose_desired);
 		
-        //Do the IK
+		//Do the IK
 		KDL::JntArray jnt_pos_in;
 		KDL::JntArray jnt_pos_out;
 		jnt_pos_in.resize(_dimension);
-		for (int i = 0; i < _dimension; i++) 
-        {
+		for (int i = 0; i < _dimension; i++) {
 			jnt_pos_in(i) = ik_seed_state[i];
 		}
 
-        unsigned int old_free_angle = _ik_solver->getFreeAngle();
-        _ik_solver->setFreeAngle(redundancy);
-		/*int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
+		unsigned int old_free_angle = _ik_solver->getFreeAngle();
+		_ik_solver->setFreeAngle(redundancy);
+		int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
 				pose_desired,
+				consistency_limit,
 				jnt_pos_out,
-				timeout);*/
-        int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
-                                                     pose_desired,
-                                                     consistency_limit,
-                                                     jnt_pos_out,
-                                                     timeout);
+				timeout);
 
-        _ik_solver->setFreeAngle(old_free_angle);
+		_ik_solver->setFreeAngle(old_free_angle);
 
-		if (ik_valid == NO_IK_SOLUTION)
-        {
+		if (ik_valid == NO_IK_SOLUTION) {
 			error_code = kinematics::NO_IK_SOLUTION;
 			return false;
 		}
 
-		if (ik_valid >= 0)
-        {
+		if (ik_valid >= 0) {
 			solution.resize(_dimension);
-			for (int i = 0; i < _dimension; i++) 
-            {
+			for (int i = 0; i < _dimension; i++) {
 				solution[i] = jnt_pos_out(i);
 			}
 			error_code = kinematics::SUCCESS;
 			return true;
-		} 
-        else 
-        {
+		} else {
 			ROS_DEBUG("An IK solution could not be found");
 			error_code = kinematics::NO_IK_SOLUTION;
 			return false;
@@ -389,18 +379,17 @@ namespace youbot_arm_kinematics {
 	}
 
 
-    bool ArmKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
+	bool ArmKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
 			const std::vector<double> &ik_seed_state,
 			const double &timeout,
-            const unsigned int& redundancy,
-            const double &consistency_limit,
+			const unsigned int& redundancy,
+			const double &consistency_limit,
 			std::vector<double> &solution,
 			const boost::function<void(const geometry_msgs::Pose &ik_pose, const std::vector<double> &ik_solution, int &error_code)> &desired_pose_callback,
 			const boost::function<void(const geometry_msgs::Pose &ik_pose, const std::vector<double> &ik_solution, int &error_code)> &solution_callback,
 			int &error_code_int)
 	{
-		if (!_active) 
-        {
+		if (!_active) {
 			ROS_ERROR("kinematics not active");
 			error_code_int = kinematics::INACTIVE;
 			return false;
@@ -415,44 +404,32 @@ namespace youbot_arm_kinematics {
 		KDL::JntArray jnt_pos_in;
 		KDL::JntArray jnt_pos_out;
 		jnt_pos_in.resize(_dimension);
-		for (int i = 0; i < _dimension; i++) 
-        {
+		for (int i = 0; i < _dimension; i++) {
 			jnt_pos_in(i) = ik_seed_state[i];
 		}
 
 		arm_navigation_msgs::ArmNavigationErrorCodes error_code;
-        unsigned int old_free_angle = _ik_solver->getFreeAngle();
-        _ik_solver->setFreeAngle(redundancy);
-		/*int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
+		unsigned int old_free_angle = _ik_solver->getFreeAngle();
+		_ik_solver->setFreeAngle(redundancy);
+		int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
 				pose_desired,
 				jnt_pos_out,
-				timeout,
-				error_code,
-				boost::bind(&ArmKinematicsPlugin::desiredPoseCallback, this, _1, _2, _3),
-				boost::bind(&ArmKinematicsPlugin::jointSolutionCallback, this, _1, _2, _3));
-        */
-        int ik_valid = _ik_solver->CartToJntSearch(jnt_pos_in,
-				pose_desired,
-				jnt_pos_out,
-                consistency_limit,
+				consistency_limit,
 				timeout,
 				error_code,
 				boost::bind(&ArmKinematicsPlugin::desiredPoseCallback, this, _1, _2, _3),
 				boost::bind(&ArmKinematicsPlugin::jointSolutionCallback, this, _1, _2, _3));
 
-        _ik_solver->setFreeAngle(old_free_angle);
+		_ik_solver->setFreeAngle(old_free_angle);
 
-		if (ik_valid == NO_IK_SOLUTION) 
-        {
+		if (ik_valid == NO_IK_SOLUTION) {
 			error_code_int = kinematics::NO_IK_SOLUTION;
 			return false;
 		}
 
-		if (ik_valid >= 0) 
-        {
+		if (ik_valid >= 0) {
 			solution.resize(_dimension);
-			for (int i = 0; i < _dimension; i++) 
-            {
+			for (int i = 0; i < _dimension; i++) {
 				solution[i] = jnt_pos_out(i);
 			}
 			error_code_int = kinematics::SUCCESS;
@@ -527,19 +504,21 @@ namespace youbot_arm_kinematics {
 
 	const std::vector<std::string>& ArmKinematicsPlugin::getJointNames() const
 	{
-        if (!_active) {
-            ROS_ERROR("kinematics not active");
-        }
+		if (!_active) {
+			ROS_ERROR("kinematics not active");
+		}
+
 		return _ik_solver_info.joint_names;
 	}
 
 
 	const std::vector<std::string>& ArmKinematicsPlugin::getLinkNames() const
 	{
-		if(!_active) {
-            ROS_ERROR("kinematics not active");
-        }
-        return _fk_solver_info.link_names;
+		if (!_active) {
+			ROS_ERROR("kinematics not active");
+		}
+
+		return _fk_solver_info.link_names;
 	}
 
 } // namespace

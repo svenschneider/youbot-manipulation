@@ -165,15 +165,9 @@ class InverseKinematicsSolver : public KDL::ChainIkSolverPos
 				const boost::function<void(const KDL::JntArray&,const KDL::Frame&,arm_navigation_msgs::ArmNavigationErrorCodes &)> &solution_callback);
 
 
-		unsigned int getFreeAngle() const
-		{
-			return _free_angle;
-		}
+		unsigned int getFreeAngle() const;
 
-		void setFreeAngle(const unsigned int& free_angle)
-		{
-			_free_angle = free_angle;
-		}
+		void setFreeAngle(const unsigned int& free_angle);
 
 
 	private: // functions
