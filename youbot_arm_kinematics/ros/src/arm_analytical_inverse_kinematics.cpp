@@ -88,7 +88,7 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 
 	// Distance from arm_link_3 to arm_link_5 (can also be replaced by e.g.
 	// distance from arm_link_3 to tool center point)
-	double d = 0.195;
+	double d = 0.13;
 
 	double j1;
 	double j2;
