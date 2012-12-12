@@ -41,6 +41,7 @@
 #include <kinematics_msgs/PositionIKRequest.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <tf_conversions/tf_kdl.h>
+#include <arm_navigation_msgs/ArmNavigationErrorCodes.h>
 #include <youbot_arm_kinematics/inverse_kinematics.h>
 
 

@@ -1,4 +1,6 @@
 #include <youbot_arm_kinematics/solver_info_processor.h>
+#include <moveit_msgs/JointLimits.h>
+#include <ros/ros.h>
 
 
 SolverInfoProcessor::SolverInfoProcessor(const urdf::Model &robot_model,
@@ -57,7 +59,7 @@ kinematics_msgs::KinematicSolverInfo SolverInfoProcessor::getSolverInfo() const
 
 void SolverInfoProcessor::addJointToChainInfo(boost::shared_ptr<const urdf::Joint> joint, kinematics_msgs::KinematicSolverInfo &info)
 {
-	arm_navigation_msgs::JointLimits limit;
+	moveit_msgs::JointLimits limit;
 	info.joint_names.push_back(joint->name);//Joints are coming in reverse order
 
 	if (joint->type != urdf::Joint::CONTINUOUS) {
