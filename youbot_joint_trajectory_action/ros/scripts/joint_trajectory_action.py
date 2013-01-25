@@ -69,6 +69,7 @@ class JointTrajectoryAction:
 				if (rospy.Time.now() - start > duration):
 					is_timed_out = True
 					break
+				rospy.sleep(0.01)
 			
 			if (is_timed_out):
 				break
