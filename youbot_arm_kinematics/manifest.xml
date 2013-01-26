@@ -23,7 +23,6 @@
   <depend package="kinematics_base"/>
   <depend package="pr2_arm_kinematics"/>
   <depend package="control_msgs"/>
-  <depend package="moveit_msgs"/>
 
   
   <export>

@@ -47,17 +47,17 @@ class JointTrajectoryAction:
 	def execute_cb(self, goal):
 		is_timed_out = False
 		start = rospy.Time.now()
-		duration = rospy.Duration(5.0)
+		extra_time = rospy.Duration(5.0)
 		
 		for i in range(len(goal.trajectory.points)):
 			joint_positions = brics_actuator.msg.JointPositions()
 			conf = goal.trajectory.points[i].positions
 			
 			# transform from ROS to BRICS message
-			for i in range(len(self.joint_names)):
+			for j in range(len(self.joint_names)):
 				joint_value = brics_actuator.msg.JointValue()
-				joint_value.joint_uri = self.joint_names[i]
-				joint_value.value = conf[i]
+				joint_value.joint_uri = self.joint_names[j]
+				joint_value.value = conf[j]
 				joint_value.unit = self.unit
 				joint_positions.positions.append(joint_value)
 			self.pub.publish(joint_positions)
@@ -66,9 +66,10 @@ class JointTrajectoryAction:
 			while (not rospy.is_shutdown()):
 				if (self.is_goal_reached(conf, self.configuration)):
 					break
-				if (rospy.Time.now() - start > duration):
+				if ((rospy.Time.now() - start) > (goal.trajectory.points[i].time_from_start + extra_time)):
 					is_timed_out = True
 					break
+				rospy.sleep(0.01)
 			
 			if (is_timed_out):
 				break
