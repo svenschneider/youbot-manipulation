@@ -8,7 +8,6 @@
   <depend stack="common" /> <!-- actionlib -->
   <depend stack="common_msgs" /> <!-- trajectory_msgs, sensor_msgs -->
   <depend stack="control" /> <!-- control_msgs -->
-  <depend stack="eigen" /> <!-- eigen -->
   <depend stack="orocos_kinematics_dynamics" /> <!-- kdl -->
   <depend stack="pluginlib" /> <!-- pluginlib -->
   <depend stack="pr2_controllers" /> <!-- pr2_controllers_msgs -->
