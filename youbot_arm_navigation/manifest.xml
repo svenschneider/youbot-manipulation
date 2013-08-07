@@ -17,6 +17,7 @@
   <depend package="move_arm"/>
   <depend package="move_arm_warehouse"/>
   <depend package="youbot_arm_kinematics"/>
-  <depend package="mongodb"/>
+
+  <rosdep name="mongodb"/>
 
 </package>
