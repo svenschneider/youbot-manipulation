@@ -68,42 +68,33 @@ class ArmAnalyticalInverseKinematics
         bool isSolutionValid(const KDL::JntArray &solution) const;
 
         /**
-         * The IK solver. It solves for translation (x, y, z) as well as roll
-         * and pitch of the final arm pose. A pose with yaw != 0 cannot be
-         * solved, so it's not possible to provide the yaw.
+         * The IK solver. It implements a best-effort approach to find a
+         * solution: The youBot arm with its five degrees of freedom is
+         * deficient and therefore can only reach a limited set of arbitrary
+         * six-dimensional Cartesian poses (within the workspace). This IK
+         * solver finds solutions for arbitrary poses (within the workspace)
+         * anyway. However, most solutions contain a certain error. The solution
+         * is based on the inverse position kinematics of the Yasukawa Motoman
+         * L-3 [1].
          *
-         * The "offset" parameters allow searching for redundant solutions.
-         * Joint 1 can either be pointing towards the position or away from the
-         * position. Joint 3 can either be up or down.
+         * [1] Craig, John J. Horton, M. J. (Ed.).
+         *     Introduction to Robotics - Mechanics and Control.
+         *     Prentice Hall, 2005.
          *
-         * The IK solver is based on a geometric approach:
-         * - Joint 1 determines the "pointing" direction of the arm. It can be
-         *   considered in isolation by only looking at the x-y-plane. This
-         *   enables us to treat the remaining joints in a plane that is
-         *   perpendicular to the x-y-plane.
-         * - Joint 2 and joint 3 determine the height and distance of the
-         *   gripper (seen in the frame of joint 2). They have to be considered
-         *   in combination, which also leads to a redundant solution.
-         *   The height and distance of the gripper depend on the pitch of the
-         *   final.
-         * - Joint 4 determines at which pitch angle the final pose is
-         *   approached.
-         * - Joint 5 determines at which roll angle the final pose is
-         *   approached. It can be considered in isolation. There are two
-         *   possible solutions: One is the provided roll and the other is the
-         *   provided roll plus pi.
+         * @param frame The Cartesian target frame for which the inverse
+         * kinematics solves.
          *
+         * @param offset_joint_1 Chooses if the first joint points towards or
+         * away from the target.
          *
-         * @param x: X coordinate of the cartesian position
-         * @param y: Y coordinate of the cartesian position
-         * @param z: Z coordinate of the cartesian position
-         * @param roll: Roll of the gripper
-         * @param pitch: Pitch of the gripper
-         * @param offset_joint_1: Determines the result of the first joint
-         * @param offset_joint_3: Determines the result of the third joint
-         * @param offset_joint_5: Determines the result of the fifth joint
-         * @return: If there is a solution a JntArray with five entries is
-         *             returned, else the JntArray is empty.
+         * @param offset_joint_3 Chooses between elbow-up and elbow-down
+         * solution
+         *
+         * @param offset_joint_5 Chooses if the last joint is rotated by Pi or
+         * not.
+         *
+         * @return If there is a solution a JntArray with five entries is
+         * returned, else the JntArray is empty.
          */
         KDL::JntArray ik(const KDL::Frame &frame, bool offset_joint_1 = false,
                 bool offset_joint_3 = false, bool offset_joint_5 = false);
