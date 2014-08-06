@@ -3,6 +3,9 @@
 
 #include <vector>
 
+#include <kdl/frames.hpp>
+#include <kdl/jntarray.hpp>
+
 
 /**
  * An analytical IK solver for the youBot arm.
