@@ -6,9 +6,6 @@
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainiksolverpos_nr_jl.hpp>
 
-// Package includes
-#include <youbot_arm_kinematics/solver_info_processor.h>
-
 
 #define DEG_TO_RAD(x) ((x) * M_PI / 180.0)
 
@@ -20,9 +17,6 @@ ArmAnalyticalInverseKinematics::ArmAnalyticalInverseKinematics(
 		const std::vector<double> &min_angles,
 		const std::vector<double> &max_angles)
 {
-	SolverInfoProcessor solver_info_processor(robot_model, tip_name, root_name);
-	_solver_info = solver_info_processor.getSolverInfo();
-
 	_min_angles = min_angles;
 	_max_angles = max_angles;
 }
@@ -63,12 +57,6 @@ int ArmAnalyticalInverseKinematics::CartToJnt(const KDL::JntArray& q_init,
 
 		return -1;
 	}
-}
-
-
-void ArmAnalyticalInverseKinematics::getSolverInfo(kinematics_msgs::KinematicSolverInfo &info)
-{
-	info = _solver_info;
 }
 
 

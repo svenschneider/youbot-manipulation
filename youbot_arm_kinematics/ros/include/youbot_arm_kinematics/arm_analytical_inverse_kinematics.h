@@ -3,13 +3,11 @@
 
 #include <vector>
 
-// Package includes
-#include <youbot_arm_kinematics/inverse_kinematics.h>
 
 /**
  * An analytical IK solver for the youBot arm.
  */
-class ArmAnalyticalInverseKinematics : public InverseKinematics
+class ArmAnalyticalInverseKinematics
 {
 	public:
 		/**
@@ -35,11 +33,6 @@ class ArmAnalyticalInverseKinematics : public InverseKinematics
 		int CartToJnt(const KDL::JntArray& q_init,
 			const KDL::Frame& p_in,
 			std::vector<KDL::JntArray>& q_out);
-
-		/**
-		 * @see InverseKinematics::getSolverInfo
-		 */
-		void getSolverInfo(kinematics_msgs::KinematicSolverInfo &response);
 
 
 	private:
@@ -106,11 +99,6 @@ class ArmAnalyticalInverseKinematics : public InverseKinematics
 		 * Maximum joint limits.
 		 */
 		std::vector<double> _max_angles;
-
-		/**
-		 * Information about the IK solver.
-		 */
-		kinematics_msgs::KinematicSolverInfo _solver_info;
 
 		/**
 		 * Threshold when a number is near to +1 or -1. This is required to
