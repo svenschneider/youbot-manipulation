@@ -1,15 +1,18 @@
-#include <youbot_arm_kinematics/arm_analytical_inverse_kinematics.h>
+#include <youbot_arm_kinematics/inverse_kinematics.h>
 
 #include <iostream>
 
 
+using namespace youbot_arm_kinematics;
+
+
 #define DEG_TO_RAD(x) ((x) * M_PI / 180.0)
 
-const double ArmAnalyticalInverseKinematics::ALMOST_PLUS_ONE = 0.9999999;
-const double ArmAnalyticalInverseKinematics::ALMOST_MINUS_ONE = -0.9999999;
+const double InverseKinematics::ALMOST_PLUS_ONE = 0.9999999;
+const double InverseKinematics::ALMOST_MINUS_ONE = -0.9999999;
 
 
-ArmAnalyticalInverseKinematics::ArmAnalyticalInverseKinematics(
+InverseKinematics::InverseKinematics(
         const std::vector<double> &min_angles,
         const std::vector<double> &max_angles)
 {
@@ -18,12 +21,12 @@ ArmAnalyticalInverseKinematics::ArmAnalyticalInverseKinematics(
 }
 
 
-ArmAnalyticalInverseKinematics::~ArmAnalyticalInverseKinematics()
+InverseKinematics::~InverseKinematics()
 {
 }
 
 
-int ArmAnalyticalInverseKinematics::CartToJnt(const KDL::JntArray &q_init,
+int InverseKinematics::CartToJnt(const KDL::JntArray &q_init,
         const KDL::Frame &p_in,
         std::vector<KDL::JntArray> &q_out)
 {
@@ -56,7 +59,7 @@ int ArmAnalyticalInverseKinematics::CartToJnt(const KDL::JntArray &q_init,
 }
 
 
-KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
+KDL::JntArray InverseKinematics::ik(const KDL::Frame& g0,
         bool offset_joint_1, bool offset_joint_3, bool offset_joint_5)
 {
     // Parameters from youBot URDF file
@@ -204,7 +207,7 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 }
 
 
-KDL::Frame ArmAnalyticalInverseKinematics::projectGoalOrientationIntoArmSubspace(
+KDL::Frame InverseKinematics::projectGoalOrientationIntoArmSubspace(
         const KDL::Frame &goal) const
 {
     KDL::Vector y_t_hat = goal.M.UnitY();   // y vector of the rotation matrix
@@ -238,8 +241,7 @@ KDL::Frame ArmAnalyticalInverseKinematics::projectGoalOrientationIntoArmSubspace
 }
 
 
-bool ArmAnalyticalInverseKinematics::isSolutionValid(
-        const KDL::JntArray &solution) const
+bool InverseKinematics::isSolutionValid(const KDL::JntArray &solution) const
 {
     bool valid = true;
 

@@ -1,5 +1,5 @@
-#ifndef ARM_ANALYTICAL_INVERSE_KINEMATICS_H
-#define ARM_ANALYTICAL_INVERSE_KINEMATICS_H
+#ifndef INVERSE_KINEMATICS_H
+#define INVERSE_KINEMATICS_H
 
 #include <vector>
 
@@ -7,10 +7,13 @@
 #include <kdl/jntarray.hpp>
 
 
+namespace youbot_arm_kinematics
+{
+
 /**
  * An analytical IK solver for the youBot arm.
  */
-class ArmAnalyticalInverseKinematics
+class InverseKinematics
 {
     public:
         /**
@@ -22,14 +25,14 @@ class ArmAnalyticalInverseKinematics
          * @param max_angles The maximum joint limits of the arm. The values are
          * provided as radians [rad].
          */
-        ArmAnalyticalInverseKinematics(
+        InverseKinematics(
             const std::vector<double> &min_angles,
             const std::vector<double> &max_angles);
 
         /**
          * Dtor.
          */
-        virtual ~ArmAnalyticalInverseKinematics();
+        virtual ~InverseKinematics();
 
         /**
          * Calculate inverse position kinematics, from Cartesian coordinates to
@@ -121,5 +124,7 @@ class ArmAnalyticalInverseKinematics
         static const double ALMOST_PLUS_ONE;
         static const double ALMOST_MINUS_ONE;
 };
+
+}
 
 #endif
