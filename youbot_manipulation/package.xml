@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <name>youbot_manipulation</name>
+  <version>0.1.0</version>
+  <description>
+    Meta-package for packages related to manipulation on the youBot. This
+    includes, for example, inverse kinematics solvers or motion planning
+    packages.
+  </description>
+  <license>GPLv3</license>
+
+  <maintainer email="sven.schneider@h-brs.de">Sven Schneider</maintainer>
+  <author email="sven.schneider@h-brs.de">Sven Schneider</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
