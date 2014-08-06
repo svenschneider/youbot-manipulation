@@ -150,26 +150,22 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
     }
 
     // Third joint
-    double j3_cos = ((p2.x() * p2.x()) + (p2.z() * p2.z()) - (l2 * l2) - (l3 * l3)) / (2 * l2 * l3);
+    double l_sqr = (p2.x() * p2.x()) + (p2.z() * p2.z());
+    double l2_sqr = l2 * l2;
+    double l3_sqr = l3 * l3;
+    double j3_cos = (l_sqr - l2_sqr - l3_sqr) / (2.0 * l2 * l3);
+
     if (j3_cos > ALMOST_PLUS_ONE) j3 = 0.0;
     else if (j3_cos < ALMOST_MINUS_ONE) j3 = M_PI;
-    else j3 = atan2(sqrt(1 - (j3_cos * j3_cos)), j3_cos);
+    else j3 = atan2(sqrt(1.0 - (j3_cos * j3_cos)), j3_cos);
+
     if (offset_joint_3) j3 = -j3;
 
+
     // Second joint
-    if (!offset_joint_3) {
-        if (j3 >= 0) j2 = -atan2(p2.z(), p2.x()) - atan2(l3 * sin(j3), l2 + l3 * cos(j3));
-        else j2 = -atan2(p2.z(), p2.x()) + atan2(l3 * sin(j3), l2 + l3 * cos(j3));
-    } else {
-        double t1 = atan2(p2.z(), p2.x());
-        double t2 = atan2(l3 * sin(j3), l2 + l3 * cos(j3));
-
-        if (t1 < 0.0) t1 = (2.0 * M_PI) + t1;
-
-        if (j3 >= 0) j2 = -t1 + t2;
-        else j2 = -t1 - t2;
-    }
-    j2 += M_PI_2;
+    double t1 = atan2(p2.z(), p2.x());
+    double t2 = atan2(l3 * sin(j3), l2 + l3 * cos(j3));
+    j2 = M_PI_2 - t1 - t2;
 
 
     // Fourth joint, determines the pitch of the gripper
