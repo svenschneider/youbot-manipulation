@@ -71,11 +71,11 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
     // distance from arm_link_3 to tool center point)
     double d = 0.13;
 
-    double j1;
-    double j2;
-    double j3;
-    double j4;
-    double j5;
+    double j1 = 0.0;
+    double j2 = 0.0;
+    double j3 = 0.0;
+    double j4 = 0.0;
+    double j5 = 0.0;
 
 
     // Transform from frame 0 to frame 1
