@@ -31,7 +31,23 @@ class ArmAnalyticalInverseKinematics
 		virtual ~ArmAnalyticalInverseKinematics();
 
 		/**
-		 * @see InverseKinematics::CartToJnt
+		 * Calculate inverse position kinematics, from Cartesian coordinates to
+		 * joint coordinates.
+		 *
+		 * @param q_init A seed value for the inverse kinematics solver. It is
+		 * 					usually used in numerical solvers. In analytical
+		 * 					solvers it can e.g. contain the current joint
+		 * 					configuration, so that the solver returns the
+		 * 					closest solution. However, this implementation
+		 * 					returns all valid solutions and thus does not use
+		 * 					this argument. The values are provided as radians
+		 * 					[rad].
+		 * @param p_in The Cartesian coordinates to solve for. The position
+		 * 				vector of the frame is provided as meters [m].
+		 * @param q_out A list of all found and valid inverse kinematics
+		 * 				solutions. The values are provided as radians [rad].
+		 * @return A value greater than zero if a solution was found or a value
+		 * 			less than zero if no solution was found.
 		 */
 		int CartToJnt(const KDL::JntArray& q_init,
 			const KDL::Frame& p_in,
