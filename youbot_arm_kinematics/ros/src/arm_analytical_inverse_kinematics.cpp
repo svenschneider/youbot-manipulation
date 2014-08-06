@@ -1,5 +1,7 @@
 #include <youbot_arm_kinematics/arm_analytical_inverse_kinematics.h>
 
+#include <iostream>
+
 // ROS includes
 #include <pr2_arm_kinematics/pr2_arm_kinematics_utils.h>
 #include <kdl/chainfksolverpos_recursive.hpp>
@@ -49,11 +51,11 @@ int ArmAnalyticalInverseKinematics::CartToJnt(const KDL::JntArray& q_init,
 	}
 
 	if (q_out.size() > 0) {
-		ROS_DEBUG("Inverse Kinematic found a solution");
+		std::cout << "Inverse Kinematic found a solution" << std::endl;
 
 		return 1;
 	} else {
-		ROS_DEBUG("Inverse Kinematic found no solution.");
+		std::cout << "Inverse Kinematic found no solution." << std::endl;
 
 		return -1;
 	}
@@ -191,8 +193,18 @@ KDL::JntArray ArmAnalyticalInverseKinematics::ik(const KDL::Frame& g0,
 	solution(3) = j4 + offset4;
 	solution(4) = offset5 - j5;
 
-	ROS_DEBUG("Configuration without offsets: %f, %f, %f, %f, %f", j1, j2, j3, j4, j5);
-	ROS_DEBUG("Configuration with offsets: %f, %f, %f, %f, %f", solution(0), solution(1), solution(2), solution(3), solution(4));
+	std::cout << "Configuration without offsets: "
+			<< j1 << ", "
+			<< j2 << ", "
+			<< j3 << ", "
+			<< j4 << ", "
+			<< j5 << std::endl;
+	std::cout << "Configuration with offsets: "
+			<< solution(0) << ", "
+			<< solution(1) << ", "
+			<< solution(2) << ", "
+			<< solution(3) << ", "
+			<< solution(4) << std::endl;
 
 	return solution;
 }
