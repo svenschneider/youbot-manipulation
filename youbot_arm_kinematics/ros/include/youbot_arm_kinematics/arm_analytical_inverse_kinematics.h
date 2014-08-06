@@ -1,6 +1,8 @@
 #ifndef ARM_ANALYTICAL_INVERSE_KINEMATICS_H
 #define ARM_ANALYTICAL_INVERSE_KINEMATICS_H
 
+#include <vector>
+
 // Package includes
 #include <youbot_arm_kinematics/inverse_kinematics.h>
 
@@ -13,16 +15,14 @@ class ArmAnalyticalInverseKinematics : public InverseKinematics
 		/**
 		 * Ctor.
 		 *
-		 * @brief Initialize the solver by providing a urdf::Model and a root and tip name.
-		 * @param robot_model A urdf::Model representation of the youBot robot model
-		 * @param robot_description The XML string that of a urdf::Model which represents the youBot robot model
-		 * @param root_name The root joint name of the arm 
-		 * @param joint_name The tip joint name of the arm
+		 * @param min_angles The minimum joint limits of the arm. The values are
+		 * 						provided as radians [rad].
+		 * @param max_angles The maximum joint limits of the arm. The values are
+		 * 						provided as radians [rad].
 		 */
-		ArmAnalyticalInverseKinematics(const urdf::Model &robot_model,
-			const std::string &robot_description,
-			const std::string &root_name,
-			const std::string &tip_name);
+		ArmAnalyticalInverseKinematics(
+			const std::vector<double> &min_angles,
+			const std::vector<double> &max_angles);
 
 		/**
 		 * Dtor.

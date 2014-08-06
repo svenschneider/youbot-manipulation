@@ -16,18 +16,15 @@ const double ArmAnalyticalInverseKinematics::ALMOST_PLUS_ONE = 0.9999999;
 const double ArmAnalyticalInverseKinematics::ALMOST_MINUS_ONE = -0.9999999;
 
 
-ArmAnalyticalInverseKinematics::ArmAnalyticalInverseKinematics(const urdf::Model &robot_model,
-		const std::string &robot_description,
-		const std::string &root_name,
-		const std::string &tip_name)
+ArmAnalyticalInverseKinematics::ArmAnalyticalInverseKinematics(
+		const std::vector<double> &min_angles,
+		const std::vector<double> &max_angles)
 {
 	SolverInfoProcessor solver_info_processor(robot_model, tip_name, root_name);
 	_solver_info = solver_info_processor.getSolverInfo();
 
-	for (unsigned int i = 0; i < _solver_info.joint_names.size(); i++) {
-		_min_angles.push_back(_solver_info.limits[i].min_position);
-		_max_angles.push_back(_solver_info.limits[i].max_position);
-	}
+	_min_angles = min_angles;
+	_max_angles = max_angles;
 }
 
 
