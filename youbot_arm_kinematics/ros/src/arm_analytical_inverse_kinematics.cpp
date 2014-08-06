@@ -2,12 +2,6 @@
 
 #include <iostream>
 
-// ROS includes
-#include <pr2_arm_kinematics/pr2_arm_kinematics_utils.h>
-#include <kdl/chainfksolverpos_recursive.hpp>
-#include <kdl/chainiksolvervel_pinv.hpp>
-#include <kdl/chainiksolverpos_nr_jl.hpp>
-
 
 #define DEG_TO_RAD(x) ((x) * M_PI / 180.0)
 
