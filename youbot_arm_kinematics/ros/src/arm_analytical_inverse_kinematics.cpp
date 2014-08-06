@@ -13,8 +13,8 @@ ArmAnalyticalInverseKinematics::ArmAnalyticalInverseKinematics(
 		const std::vector<double> &min_angles,
 		const std::vector<double> &max_angles)
 {
-	_min_angles = min_angles;
-	_max_angles = max_angles;
+	min_angles_ = min_angles;
+	max_angles_ = max_angles;
 }
 
 
@@ -240,7 +240,7 @@ bool ArmAnalyticalInverseKinematics::isSolutionValid(const KDL::JntArray &soluti
 	if (solution.rows() != 5) return false;
 
 	for (unsigned int i = 0; i < solution.rows(); i++) {
-		if ((solution(i) < _min_angles[i]) || (solution(i) > _max_angles[i])) {
+		if ((solution(i) < min_angles_[i]) || (solution(i) > max_angles_[i])) {
 			valid = false;
 		}
 	}

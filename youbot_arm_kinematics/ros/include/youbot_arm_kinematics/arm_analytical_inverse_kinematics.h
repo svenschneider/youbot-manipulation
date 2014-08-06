@@ -96,12 +96,12 @@ class ArmAnalyticalInverseKinematics
 		/**
 		 * Minimum joint limits.
 		 */
-		std::vector<double> _min_angles;
+		std::vector<double> min_angles_;
 
 		/**
 		 * Maximum joint limits.
 		 */
-		std::vector<double> _max_angles;
+		std::vector<double> max_angles_;
 
 		/**
 		 * Threshold when a number is near to +1 or -1. This is required to
