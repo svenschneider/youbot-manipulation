@@ -1,7 +1,0 @@
-<library path="lib/libyoubot_arm_kinematics">
-  <class name="youbot_arm_kinematics/YouBotArmKinematicsPlugin" type="youbot_arm_kinematics::ArmKinematicsPlugin" base_class_type="kinematics::KinematicsBase">
-    <description>
-      Kinematics solver for the youBot arm.
-    </description>
-  </class>
-</library>
