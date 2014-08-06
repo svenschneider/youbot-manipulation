@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <name>youbot_arm_kinematics</name>
+  <version>0.1.0</version>
+  <description>
+    A software library which contains an analytical inverse position kinematics
+    solver for the youBot arm.
+  </description>
+  <license>GPLv3</license>
+
+  <maintainer email="sven.schneider@h-brs.de">Sven Schneider</maintainer>
+  <author email="sven.schneider@h-brs.de">Sven Schneider</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
