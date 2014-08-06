@@ -1,6 +1,0 @@
-message_type: FilterJointTrajectory
-filter_chain:
-  - 
-    type: UnNormalizeFilterJointTrajectory
-    name: unnormalize_trajectory
-

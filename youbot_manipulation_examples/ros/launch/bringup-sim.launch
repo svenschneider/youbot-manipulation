@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-
-	<include file="$(find youbot_description)/launch/youbot_publisher.launch" />
-	<include file="$(find youbot_joint_trajectory_action)/ros/launch/youbot_joint_trajectory_action.launch" />
-	<include file="$(find youbot_arm_navigation)/ros/launch/arm_navigation.launch" />
-
-</launch>

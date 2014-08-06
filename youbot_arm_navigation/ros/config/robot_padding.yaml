@@ -1,8 +1,0 @@
-default_robot_padding: 0.0
-link_padding:
-  - link: youbot_gripper_palm_link
-    padding: 0.0
-  - link: youbot_gripper_finger_link_l
-    padding: 0.0
-  - link: youbot_gripper_finger_link_r
-    padding: 0.0

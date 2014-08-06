@@ -1,9 +1,0 @@
-cloud_sources:
-  - name: /camera/depth/points_filtered
-    frame_subsample: 1
-    point_subsample: 1
-    sensor_frame: /openni_camera
-    dynamic_publish: true
-    static_publish: false
-    dynamic_until_static_publish: false
-camera_info_topic: /camera/depth/camera_info

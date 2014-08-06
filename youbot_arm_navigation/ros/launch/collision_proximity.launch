@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-
-	<node pkg="collision_proximity" type="collision_proximity_server_test" name="collision_proximity" output="screen">
-		<remap from="collision_map" to="collision_map_occ" />
-	</node>
-
-</launch>
