@@ -121,12 +121,8 @@ KDL::JntArray InverseKinematics::ik(const KDL::Frame& g0,
     // The sum of joint angles two to four determines the overall "pitch" of the
     // end effector
     double r13 = g2_proj.M(0, 2);
-    double r23 = g2_proj.M(1, 2);
     double r33 = g2_proj.M(2, 2);
-    double j234 = atan2(r13 * c1 + r23 * s1, r33);
-
-
-    if ((g1.p.x() < 0) && (!offset_joint_1)) j234 *= -1;
+    double j234 = atan2(r13, r33);
 
 
     KDL::Vector p2 = g2_proj.p;
