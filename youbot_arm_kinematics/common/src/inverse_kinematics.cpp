@@ -68,8 +68,7 @@ KDL::JntArray InverseKinematics::ik(const KDL::Frame& g0,
     double l2 = 0.155;
     double l3 = 0.135;
 
-    // Distance from arm_link_3 to arm_link_5 (can also be replaced by e.g.
-    // distance from arm_link_3 to tool center point)
+    // Distance from arm_link_4 to arm_link_5
     double d = 0.13;
 
     double j1 = 0.0;
@@ -127,6 +126,7 @@ KDL::JntArray InverseKinematics::ik(const KDL::Frame& g0,
 
     KDL::Vector p2 = g2_proj.p;
 
+    // In the arm's subplane, offset from the end-effector to the fourth joint
     p2.x(p2.x() - d * sin(j234));
     p2.z(p2.z() - d * cos(j234));
 
