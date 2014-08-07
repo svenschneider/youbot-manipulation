@@ -93,14 +93,11 @@ class InverseKinematics
          * @param offset_joint_3 Chooses between elbow-up and elbow-down
          * solution
          *
-         * @param offset_joint_5 Chooses if the last joint is rotated by Pi or
-         * not.
-         *
          * @return If there is a solution a JntArray with five entries is
          * returned, else the JntArray is empty.
          */
         KDL::JntArray ik(const KDL::Frame &frame, bool offset_joint_1 = false,
-                bool offset_joint_3 = false, bool offset_joint_5 = false);
+                bool offset_joint_3 = false);
 
         KDL::Frame projectGoalOrientationIntoArmSubspace(
                 const KDL::Frame &goal) const;
