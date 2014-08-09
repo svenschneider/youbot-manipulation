@@ -160,6 +160,11 @@ class KinematicsPlugin : public kinematics::KinematicsBase
 
     private:
         /**
+         * The number of joints for which the inverse kinematics can solve.
+         */
+        const std::size_t NUM_JOINTS;
+
+        /**
          * The joints on which the kinematics plugin is working.
          */
         std::vector<std::string> joint_names_;

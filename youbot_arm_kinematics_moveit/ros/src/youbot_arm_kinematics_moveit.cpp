@@ -11,7 +11,7 @@ PLUGINLIB_EXPORT_CLASS(youbot_arm_kinematics_moveit::KinematicsPlugin,
 using namespace youbot_arm_kinematics_moveit;
 
 
-KinematicsPlugin::KinematicsPlugin()
+KinematicsPlugin::KinematicsPlugin() : NUM_JOINTS(5)
 {
 }
 
@@ -41,7 +41,6 @@ bool KinematicsPlugin::initialize(const std::string &robot_description,
     }
 
     // Validate that the correct number of joints has been extracted
-    const size_t NUM_JOINTS = 5;
     if (joint_names_.size() != NUM_JOINTS) return false;
 
     ik_.reset(new youbot_arm_kinematics::InverseKinematics(lower_limits,
