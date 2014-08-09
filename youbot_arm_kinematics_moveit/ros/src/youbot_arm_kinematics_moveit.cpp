@@ -59,6 +59,9 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
     // Check if the initialize function has already been called successfully
     if (!ik_) return false;
 
+    // Validate that there is one seed value per joint
+    if (ik_seed_state.size() != NUM_JOINTS) return false;
+
 
     // Convert the ROS pose to a KDL frame
     KDL::Frame frame;
