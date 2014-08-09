@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: youbot_description
+    relative_path: robots/youbot.urdf.xacro
+  SRDF:
+    relative_path: config/youbot.srdf
+  CONFIG:
+    generated_timestamp: 1407410106
