@@ -5,6 +5,7 @@ find_package(catkin REQUIRED
   COMPONENTS
     pluginlib
     moveit_core
+    urdf
 )
 
 catkin_package()
@@ -37,5 +38,13 @@ catkin_add_gtest(load_moveit_plugin_test
 )
 
 target_link_libraries(load_moveit_plugin_test
+  ${catkin_LIBRARIES}
+)
+
+catkin_add_gtest(youbot_arm_kinematics_moveit_test
+  ros/test/youbot_arm_kinematics_moveit_test.cpp
+)
+
+target_link_libraries(youbot_arm_kinematics_moveit_test
   ${catkin_LIBRARIES}
 )

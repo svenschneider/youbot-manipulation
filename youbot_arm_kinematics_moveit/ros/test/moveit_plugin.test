@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <param name="/robot_description" type="str"
+        textfile="$(find youbot_arm_kinematics_moveit)/ros/test/youbot_arm.urdf"
+    />
+
+    <test test-name="youbot_arm_kinematics_moveit_test"
+        pkg="youbot_arm_kinematics_moveit"
+        type="youbot_arm_kinematics_moveit_test" />
+
+</launch>

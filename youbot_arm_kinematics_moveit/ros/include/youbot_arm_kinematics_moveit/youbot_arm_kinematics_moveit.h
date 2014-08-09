@@ -2,6 +2,7 @@
 #define YOUBOT_ARM_KINEMATICS_MOVEIT_H
 
 #include <moveit/kinematics_base/kinematics_base.h>
+#include <urdf/model.h>
 
 
 namespace youbot_arm_kinematics_moveit
@@ -115,6 +116,57 @@ class KinematicsPlugin : public kinematics::KinematicsBase
          * Assignment operator.
          */
         KinematicsPlugin &operator=(const KinematicsPlugin &other);
+
+        /**
+         * Given a URDF model of a robot, extract information such as joint
+         * names or limits from it. The base and the tip frame must be connected
+         * in the URDF model, else the function fails (returns false).
+         *
+         * @param robot_model The URDF representation of the robot.
+         *
+         * @param base_frame A link in the kinematic structure which is taken as
+         * the base of the analyzed kinematic chain.
+         *
+         * @param tip_frame A link in the kinematic structure which is taken as
+         * the tip of the analyzed kinematic chain.
+         *
+         * @param joint_names The extracted joint names. The variable is
+         * modified in-place.
+         *
+         * @param link_names The extracted link names. The variable is modified
+         * in-place.
+         *
+         * @param lower_limits The extracted lower limits of each joint. The
+         * unit depends on the specification in the URDF model. The variable is
+         * modified in-place.
+         *
+         * @param upper_limits The extracted upper limits of each joint. The
+         * unit depends on the specification in the URDF model. The variable is
+         * modified in-place.
+         *
+         * @return The function returns true on success and false otherwise.
+         */
+        bool extractKinematicData(const urdf::Model &robot_model,
+                const std::string &base_frame,
+                const std::string &tip_frame,
+                std::vector<std::string> &joint_names,
+                std::vector<std::string> &link_names,
+                std::vector<double> &lower_limits,
+                std::vector<double> &upper_limits) const;
+
+
+    private:
+        /**
+         * The joints on which the kinematics plugin is working.
+         */
+        std::vector<std::string> joint_names_;
+
+        /**
+         * The links in the kinematic chain between the base frame and the tip
+         * frame (as provided to the @see KinematicsPlugin::initialize
+         * function).
+         */
+        std::vector<std::string> link_names_;
 };
 
 }
