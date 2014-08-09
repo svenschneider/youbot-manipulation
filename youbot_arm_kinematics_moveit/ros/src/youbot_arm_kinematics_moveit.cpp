@@ -1,6 +1,7 @@
 #include <youbot_arm_kinematics_moveit/youbot_arm_kinematics_moveit.h>
 
 #include <pluginlib/class_list_macros.h>
+#include <tf_conversions/tf_kdl.h>
 
 
 PLUGINLIB_EXPORT_CLASS(youbot_arm_kinematics_moveit::KinematicsPlugin,
@@ -43,6 +44,9 @@ bool KinematicsPlugin::initialize(const std::string &robot_description,
     const size_t NUM_JOINTS = 5;
     if (joint_names_.size() != NUM_JOINTS) return false;
 
+    ik_.reset(new youbot_arm_kinematics::InverseKinematics(lower_limits,
+            upper_limits));
+
     return true;
 }
 
@@ -53,7 +57,41 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
         moveit_msgs::MoveItErrorCodes &error_code,
         const kinematics::KinematicsQueryOptions &options) const
 {
-    return false;
+    // Check if the initialize function has already been called successfully
+    if (!ik_) return false;
+
+
+    // Convert the ROS pose to a KDL frame
+    KDL::Frame frame;
+    tf::poseMsgToKDL(ik_pose, frame);
+
+    // Convert the seed array to a KDL joint array
+    std::size_t seed_size = ik_seed_state.size();
+    KDL::JntArray seed(seed_size);
+    for (std::size_t i = 0; i < seed_size; i++) {
+        seed(i) = ik_seed_state[i];
+    }
+
+    // Calculate the inverse position kinematics
+    std::vector<KDL::JntArray> solutions;
+    int res = ik_->CartToJnt(seed, frame, solutions);
+
+    if (res <= 0) {
+        error_code.val = moveit_msgs::MoveItErrorCodes::NO_IK_SOLUTION;
+        return false;
+    }
+
+    // Convert the found solution from a KDL joint array to a vector of doubles
+    for (std::size_t i = 0; i < solutions.size(); i++) {
+        solution.resize(solutions[i].rows());
+
+        for (int j = 0; j < solutions[i].rows(); j++) {
+            solution[j] = solutions[i](j);
+        }
+    }
+
+    error_code.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
+    return true;
 }
 
 

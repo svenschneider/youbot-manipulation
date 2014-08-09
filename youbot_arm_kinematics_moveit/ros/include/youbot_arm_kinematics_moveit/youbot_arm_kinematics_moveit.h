@@ -1,8 +1,11 @@
 #ifndef YOUBOT_ARM_KINEMATICS_MOVEIT_H
 #define YOUBOT_ARM_KINEMATICS_MOVEIT_H
 
+#include <boost/shared_ptr.hpp>
+
 #include <moveit/kinematics_base/kinematics_base.h>
 #include <urdf/model.h>
+#include <youbot_arm_kinematics/inverse_kinematics.h>
 
 
 namespace youbot_arm_kinematics_moveit
@@ -167,6 +170,11 @@ class KinematicsPlugin : public kinematics::KinematicsBase
          * function).
          */
         std::vector<std::string> link_names_;
+
+        /**
+         * The inverse kinematics solver.
+         */
+        boost::shared_ptr<youbot_arm_kinematics::InverseKinematics> ik_;
 };
 
 }

@@ -6,6 +6,8 @@ find_package(catkin REQUIRED
     pluginlib
     moveit_core
     urdf
+    tf_conversions
+    youbot_arm_kinematics
 )
 
 catkin_package()

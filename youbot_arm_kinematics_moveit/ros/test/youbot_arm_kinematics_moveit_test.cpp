@@ -1,6 +1,7 @@
 #include <moveit/kinematics_base/kinematics_base.h>
 #include <pluginlib/class_loader.h>
 #include <ros/ros.h>
+#include <geometry_msgs/Pose.h>
 #include <gtest/gtest.h>
 
 
@@ -82,6 +83,48 @@ TEST(youbot_arm_kinematics_moveit, joint_and_link_names_not_empty_after_init)
     EXPECT_EQ("arm_link_3", kinematics->getLinkNames()[2]);
     EXPECT_EQ("arm_link_4", kinematics->getLinkNames()[3]);
     EXPECT_EQ("arm_link_5", kinematics->getLinkNames()[4]);
+}
+
+
+TEST(youbot_arm_kinematics_moveit, inverse_kinematics_fails_before_init)
+{
+    pluginlib::ClassLoader<kinematics::KinematicsBase> loader(
+            "moveit_core", "kinematics::KinematicsBase");
+    KinematicsBasePtr kinematics = loader.createInstance(PLUGIN);
+
+    geometry_msgs::Pose pose;
+    std::vector<double> seed;
+    std::vector<double> solution;
+    moveit_msgs::MoveItErrorCodes error_code;
+
+    EXPECT_FALSE(kinematics->getPositionIK(pose, seed, solution, error_code));
+}
+
+
+TEST(youbot_arm_kinematics_moveit, find_solution_for_candle_configuration)
+{
+    pluginlib::ClassLoader<kinematics::KinematicsBase> loader(
+            "moveit_core", "kinematics::KinematicsBase");
+    KinematicsBasePtr kinematics = loader.createInstance(PLUGIN);
+    kinematics->initialize("/robot_description", "arm_1", "arm_link_0",
+            "arm_link_5", 0.1);
+
+    geometry_msgs::Pose pose;
+    std::vector<double> seed(5, 0.0);
+    std::vector<double> solution;
+    moveit_msgs::MoveItErrorCodes error_code;
+
+    pose.position.x = 0.057;
+    pose.position.y = 0.0;
+    pose.position.z = 0.535;
+
+    EXPECT_TRUE(kinematics->getPositionIK(pose, seed, solution, error_code));
+
+    EXPECT_NEAR( 2.9496, solution[0], 0.001);
+    EXPECT_NEAR( 1.1344, solution[1], 0.001);
+    EXPECT_NEAR(-2.5482, solution[2], 0.001);
+    EXPECT_NEAR( 1.7890, solution[3], 0.001);
+    EXPECT_NEAR( 2.9234, solution[4], 0.001);
 }
 
 
