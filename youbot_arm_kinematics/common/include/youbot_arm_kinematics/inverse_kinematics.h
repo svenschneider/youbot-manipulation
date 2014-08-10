@@ -6,6 +6,8 @@
 #include <kdl/frames.hpp>
 #include <kdl/jntarray.hpp>
 
+#include <youbot_arm_kinematics/logger.h>
+
 
 namespace youbot_arm_kinematics
 {
@@ -24,10 +26,15 @@ class InverseKinematics
          *
          * @param max_angles The maximum joint limits of the arm. The values are
          * provided as radians [rad].
+         *
+         * @param logger The injected logger can be used to receive internal log
+         * messages. By default a null object is used which does not do anything
+         * with received messages.
          */
         InverseKinematics(
             const std::vector<double> &min_angles,
-            const std::vector<double> &max_angles);
+            const std::vector<double> &max_angles,
+            Logger &logger = Logger::null);
 
         /**
          * Dtor.
@@ -113,6 +120,12 @@ class InverseKinematics
          * Maximum joint limits.
          */
         std::vector<double> max_angles_;
+
+        /**
+         * The injected logger to send messages to the application which is
+         * using this library.
+         */
+        Logger &logger_;
 
         /**
          * Threshold when a number is near to +1 or -1. This is required to

@@ -14,7 +14,8 @@ const double InverseKinematics::ALMOST_MINUS_ONE = -0.9999999;
 
 InverseKinematics::InverseKinematics(
         const std::vector<double> &min_angles,
-        const std::vector<double> &max_angles)
+        const std::vector<double> &max_angles,
+        Logger &logger) : logger_(logger)
 {
     min_angles_ = min_angles;
     max_angles_ = max_angles;
