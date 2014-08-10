@@ -18,6 +18,7 @@ include_directories(
 
 add_library(youbot_arm_kinematics
   common/src/inverse_kinematics.cpp
+  common/src/logger.cpp
 )
 
 target_link_libraries(youbot_arm_kinematics
