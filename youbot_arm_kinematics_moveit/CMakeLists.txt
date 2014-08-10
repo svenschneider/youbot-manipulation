@@ -50,3 +50,7 @@ catkin_add_gtest(youbot_arm_kinematics_moveit_test
 target_link_libraries(youbot_arm_kinematics_moveit_test
   ${catkin_LIBRARIES}
 )
+
+catkin_add_gtest(configuration_comparator_test
+  ros/test/configuration_comparator_test.cpp
+)
