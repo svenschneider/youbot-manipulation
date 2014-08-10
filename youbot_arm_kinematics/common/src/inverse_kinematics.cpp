@@ -1,6 +1,7 @@
 #include <youbot_arm_kinematics/inverse_kinematics.h>
 
 #include <iostream>
+#include <sstream>
 
 
 using namespace youbot_arm_kinematics;
@@ -47,11 +48,13 @@ int InverseKinematics::CartToJnt(const KDL::JntArray &q_init,
     }
 
     if (q_out.size() > 0) {
-        std::cout << "Inverse Kinematic found a solution" << std::endl;
+        logger_.write("Inverse kinematics found a solution",
+                __FILE__, __LINE__);
 
         return 1;
     } else {
-        std::cout << "Inverse Kinematic found no solution." << std::endl;
+        logger_.write("Inverse kinematics found no solution",
+                __FILE__, __LINE__);
 
         return -1;
     }
@@ -175,18 +178,20 @@ KDL::JntArray InverseKinematics::ik(const KDL::Frame& g0,
     solution(3) = j4 + offset4;
     solution(4) = offset5 - j5;
 
-    std::cout << "Configuration without offsets: "
+    std::stringstream sstr;
+    sstr << "Configuration without offsets: "
             << j1 << ", "
             << j2 << ", "
             << j3 << ", "
             << j4 << ", "
             << j5 << std::endl;
-    std::cout << "Configuration with offsets: "
+    sstr << "Configuration with offsets: "
             << solution(0) << ", "
             << solution(1) << ", "
             << solution(2) << ", "
             << solution(3) << ", "
-            << solution(4) << std::endl;
+            << solution(4);
+    logger_.write(sstr.str(), __FILE__, __LINE__);
 
     return solution;
 }
