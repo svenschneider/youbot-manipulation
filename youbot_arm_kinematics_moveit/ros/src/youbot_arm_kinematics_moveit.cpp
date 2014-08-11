@@ -1,7 +1,10 @@
 #include <youbot_arm_kinematics_moveit/youbot_arm_kinematics_moveit.h>
+#include <youbot_arm_kinematics_moveit/configuration_comparator.h>
 
 #include <pluginlib/class_list_macros.h>
 #include <tf_conversions/tf_kdl.h>
+
+#include <algorithm>
 
 
 PLUGINLIB_EXPORT_CLASS(youbot_arm_kinematics_moveit::KinematicsPlugin,
@@ -85,6 +88,10 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
         solutions[i] = configurationKdlToStd(kdl_solutions[i]);
     }
 
+    // Sort the solutions based on the distance to the seed state and return the
+    // closest solution (i.e. the first one after sorting).
+    ConfigurationComparator<double> comp(ik_seed_state);
+    std::sort(solutions.begin(), solutions.end(), comp);
     solution = solutions[0];
 
     error_code.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
