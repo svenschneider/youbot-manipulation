@@ -71,8 +71,8 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
     KDL::JntArray seed = configurationStdToKdl(ik_seed_state);
 
     // Calculate the inverse position kinematics
-    std::vector<KDL::JntArray> solutions;
-    int res = ik_->CartToJnt(seed, frame, solutions);
+    std::vector<KDL::JntArray> kdl_solutions;
+    int res = ik_->CartToJnt(seed, frame, kdl_solutions);
 
     if (res <= 0) {
         error_code.val = moveit_msgs::MoveItErrorCodes::NO_IK_SOLUTION;
@@ -80,11 +80,11 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
     }
 
     // Convert the found solution from a KDL joint array to a vector of doubles
-    for (std::size_t i = 0; i < solutions.size(); i++) {
-        solution.resize(solutions[i].rows());
+    for (std::size_t i = 0; i < kdl_solutions.size(); i++) {
+        solution.resize(kdl_solutions[i].rows());
 
-        for (int j = 0; j < solutions[i].rows(); j++) {
-            solution[j] = solutions[i](j);
+        for (int j = 0; j < kdl_solutions[i].rows(); j++) {
+            solution[j] = kdl_solutions[i](j);
         }
     }
 
