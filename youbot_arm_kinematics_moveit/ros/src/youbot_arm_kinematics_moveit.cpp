@@ -80,13 +80,12 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
     }
 
     // Convert the found solution from a KDL joint array to a vector of doubles
+    std::vector<std::vector<double> > solutions(kdl_solutions.size());
     for (std::size_t i = 0; i < kdl_solutions.size(); i++) {
-        solution.resize(kdl_solutions[i].rows());
-
-        for (int j = 0; j < kdl_solutions[i].rows(); j++) {
-            solution[j] = kdl_solutions[i](j);
-        }
+        solutions[i] = configurationKdlToStd(kdl_solutions[i]);
     }
+
+    solution = solutions[0];
 
     error_code.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
     return true;
