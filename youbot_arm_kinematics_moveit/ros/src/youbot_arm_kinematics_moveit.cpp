@@ -68,11 +68,7 @@ bool KinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
     tf::poseMsgToKDL(ik_pose, frame);
 
     // Convert the seed array to a KDL joint array
-    std::size_t seed_size = ik_seed_state.size();
-    KDL::JntArray seed(seed_size);
-    for (std::size_t i = 0; i < seed_size; i++) {
-        seed(i) = ik_seed_state[i];
-    }
+    KDL::JntArray seed = configurationStdToKdl(ik_seed_state);
 
     // Calculate the inverse position kinematics
     std::vector<KDL::JntArray> solutions;
