@@ -157,6 +157,30 @@ class KinematicsPlugin : public kinematics::KinematicsBase
                 std::vector<double> &lower_limits,
                 std::vector<double> &upper_limits) const;
 
+        /**
+         * Convert a joint configuration vector, in which each value is
+         * represented as a double, to a KDL joint array. The opposite
+         * conversion is implemented in the {@see configurationKdlToStd}
+         * function.
+         *
+         * @param v The input configuration.
+         *
+         * @return The input configuration converted to a joint array.
+         */
+        KDL::JntArray configurationStdToKdl(const std::vector<double> &v) const;
+
+        /**
+         * Convert a KDL joint array to a joint configuration vector, in which
+         * each value is represented as a double. The opposite conversion is
+         * implemented in the {@see configurationStdToKdl} function.
+         *
+         * @param jnt The input joint configuration.
+         *
+         * @return The converted joint configuration vector.
+         */
+        std::vector<double> configurationKdlToStd(const KDL::JntArray &jnt)
+                const;
+
 
     private:
         /**

@@ -231,3 +231,29 @@ bool KinematicsPlugin::extractKinematicData(const urdf::Model &robot_model,
 
     return true;
 }
+
+
+KDL::JntArray KinematicsPlugin::configurationStdToKdl(
+        const std::vector<double> &v) const
+{
+    KDL::JntArray jnt(v.size());
+
+    for (std::size_t i = 0; i < v.size(); i++) {
+        jnt(i) = v[i];
+    }
+
+    return jnt;
+}
+
+
+std::vector<double> KinematicsPlugin::configurationKdlToStd(
+        const KDL::JntArray &jnt) const
+{
+    std::vector<double> v(jnt.rows());
+
+    for (int i = 0; i < jnt.rows(); i++) {
+        v[i] = jnt(i);
+    }
+
+    return v;
+}
