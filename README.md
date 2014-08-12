@@ -24,12 +24,27 @@ Now build the workspace:
     catkin_make
 
 
-### Running
+### Running the demo
 The youbot_moveit package contains a demo to run and visualize a simulated youBot in RViz. This demo can be executed via the following command:
 
     roslaunch youbot_moveit demo.launch
 
 Using the markers attached to the manipulator, the end-effector can be dragged around which triggers the inverse kinematics solver. Additionally, different motion planners can be tried out.
+
+
+### Running on the real or simulated robot
+First, bring up the real or simulated robot. Then, start MoveIt! via:
+
+    roslaunch youbot_moveit move_group.launch
+
+With the MoveIt! Commander (http://moveit.ros.org/wiki/MoveIt_Commander) the manipulator can be moved by typing in commands. To start the MoveIt! Commander run:
+
+    rosrun moveit_commander moveit_commander_cmdline.py
+
+Then select the hardware group to move and command it to some known position (e.g. the up-right, candle position):
+
+    > use arm_1
+    arm_1> go candle
 
 
 ### Documentation
