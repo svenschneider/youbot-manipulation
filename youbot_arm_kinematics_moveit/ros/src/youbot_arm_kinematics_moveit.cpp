@@ -47,7 +47,7 @@ bool KinematicsPlugin::initialize(const std::string &robot_description,
     if (joint_names_.size() != NUM_JOINTS) return false;
 
     ik_.reset(new youbot_arm_kinematics::InverseKinematics(lower_limits,
-            upper_limits));
+            upper_limits, kinematics_logger_));
 
     return true;
 }

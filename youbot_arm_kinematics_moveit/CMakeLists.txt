@@ -19,6 +19,7 @@ include_directories(
 
 add_library(youbot_arm_kinematics_moveit
   ros/src/youbot_arm_kinematics_moveit.cpp
+  ros/src/kinematics_logger.cpp
 )
 
 target_link_libraries(youbot_arm_kinematics_moveit

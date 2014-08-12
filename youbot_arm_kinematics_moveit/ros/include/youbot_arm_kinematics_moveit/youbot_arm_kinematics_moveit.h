@@ -7,6 +7,8 @@
 #include <urdf/model.h>
 #include <youbot_arm_kinematics/inverse_kinematics.h>
 
+#include <youbot_arm_kinematics_moveit/kinematics_logger.h>
+
 
 namespace youbot_arm_kinematics_moveit
 {
@@ -204,6 +206,11 @@ class KinematicsPlugin : public kinematics::KinematicsBase
          * The inverse kinematics solver.
          */
         boost::shared_ptr<youbot_arm_kinematics::InverseKinematics> ik_;
+
+        /**
+         * The logger adapter for the kinematics package.
+         */
+        KinematicsLogger kinematics_logger_;
 };
 
 }
