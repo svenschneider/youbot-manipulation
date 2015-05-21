@@ -8,7 +8,6 @@ find_package(catkin REQUIRED
     urdf
     tf_conversions
     youbot_arm_kinematics
-    rostest
 )
 
 catkin_package()
@@ -37,23 +36,27 @@ install(FILES plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-catkin_add_gtest(load_moveit_plugin_test
-  ros/test/load_moveit_plugin_test.cpp
-)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
 
-target_link_libraries(load_moveit_plugin_test
-  ${catkin_LIBRARIES}
-)
+  catkin_add_gtest(load_moveit_plugin_test
+    ros/test/load_moveit_plugin_test.cpp
+  )
 
-add_rostest_gtest(youbot_arm_kinematics_moveit_test
-  ros/test/moveit_plugin.test
-  ros/test/youbot_arm_kinematics_moveit_test.cpp
-)
+  target_link_libraries(load_moveit_plugin_test
+    ${catkin_LIBRARIES}
+  )
 
-target_link_libraries(youbot_arm_kinematics_moveit_test
-  ${catkin_LIBRARIES}
-)
+  add_rostest_gtest(youbot_arm_kinematics_moveit_test
+    ros/test/moveit_plugin.test
+    ros/test/youbot_arm_kinematics_moveit_test.cpp
+  )
 
-catkin_add_gtest(configuration_comparator_test
-  ros/test/configuration_comparator_test.cpp
-)
+  target_link_libraries(youbot_arm_kinematics_moveit_test
+    ${catkin_LIBRARIES}
+  )
+
+  catkin_add_gtest(configuration_comparator_test
+    ros/test/configuration_comparator_test.cpp
+  )
+endif()
