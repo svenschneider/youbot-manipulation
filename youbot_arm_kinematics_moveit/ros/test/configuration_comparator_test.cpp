@@ -36,7 +36,7 @@ TEST(configuration_comparator, compare_vectors_with_one_element)
     a[0] = 2.0;
     EXPECT_FALSE(comp(a, b));
 
-    b[1] = -2.0;
+    b[0] = -2.0;
     EXPECT_FALSE(comp(a, b));
 }
 
