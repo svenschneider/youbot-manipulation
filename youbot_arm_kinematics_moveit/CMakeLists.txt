@@ -8,6 +8,7 @@ find_package(catkin REQUIRED
     urdf
     tf_conversions
     youbot_arm_kinematics
+    rostest
 )
 
 catkin_package()
@@ -44,7 +45,8 @@ target_link_libraries(load_moveit_plugin_test
   ${catkin_LIBRARIES}
 )
 
-catkin_add_gtest(youbot_arm_kinematics_moveit_test
+add_rostest_gtest(youbot_arm_kinematics_moveit_test
+  ros/test/moveit_plugin.test
   ros/test/youbot_arm_kinematics_moveit_test.cpp
 )
 
