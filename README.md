@@ -13,7 +13,7 @@ The youbot_manipulation meta-package contains the following packages:
 ### Prerequisites
 First, install the required ROS and especially MoveIt! packages by executing:
 
-    apt-get install ros-hydro-roscpp ros-hydro-pluginlib ros-hydro-urdf \
+    apt-get install python-wstool ros-hydro-roscpp ros-hydro-pluginlib ros-hydro-urdf \
       ros-hydro-tf-conversions ros-hydro-joint-state-publisher \
       ros-hydro-robot-state-publisher ros-hydro-xacro \
       ros-hydro-moveit-core ros-hydro-moveit-ros-move-group \
@@ -22,6 +22,7 @@ First, install the required ROS and especially MoveIt! packages by executing:
 Then, create a Catkin workspace (http://wiki.ros.org/catkin/Tutorials/create_a_workspace) and add the youBot description repository with the following commands:
 
     cd <catkin_workspace>/src
+    wstool init
     wstool set youbot_description --git git@github.com:youbot/youbot_description.git --version=hydro-devel
     wstool update youbot_description
 
