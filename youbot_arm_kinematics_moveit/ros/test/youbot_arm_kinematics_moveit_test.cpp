@@ -11,11 +11,13 @@ typedef boost::shared_ptr<kinematics::KinematicsBase> KinematicsBasePtr;
 
 TEST(youbot_arm_kinematics_moveit, wrong_arguments_fail_init)
 {
+    std::string empty_string = "";
+
     pluginlib::ClassLoader<kinematics::KinematicsBase> loader(
             "moveit_core", "kinematics::KinematicsBase");
     KinematicsBasePtr kinematics = loader.createInstance(PLUGIN);
 
-    EXPECT_FALSE(kinematics->initialize("", "", "", "", 0.0));
+    EXPECT_FALSE(kinematics->initialize(empty_string, empty_string, empty_string, empty_string, 0.0));
 }
 
 
@@ -116,7 +118,7 @@ TEST(youbot_arm_kinematics_moveit, find_solution_for_candle_configuration)
 
     pose.position.x = 0.057;
     pose.position.y = 0.0;
-    pose.position.z = 0.535;
+    pose.position.z = 0.53499999;
 
     EXPECT_TRUE(kinematics->getPositionIK(pose, seed, solution, error_code));
 
