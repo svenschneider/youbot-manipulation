@@ -26,12 +26,12 @@ TEST(youbot_arm_kinematics_moveit, init_sets_values)
     KinematicsBasePtr kinematics = loader.createInstance(PLUGIN);
 
     EXPECT_TRUE(kinematics->initialize("/robot_description", "arm_1",
-            "arm_link_0", "arm_link_5", 0.1));
+            "arm_link_0", "arm_link_5", 0.0));
 
     EXPECT_EQ("arm_1", kinematics->getGroupName());
     EXPECT_EQ("arm_link_0", kinematics->getBaseFrame());
     EXPECT_EQ("arm_link_5", kinematics->getTipFrame());
-    EXPECT_NEAR(0.1, kinematics->getSearchDiscretization(), 0.001);
+    EXPECT_NEAR(0.0, kinematics->getSearchDiscretization(), 0.001);
 }
 
 
@@ -67,7 +67,7 @@ TEST(youbot_arm_kinematics_moveit, joint_and_link_names_not_empty_after_init)
     EXPECT_TRUE(kinematics->getLinkNames().empty());
 
     EXPECT_TRUE(kinematics->initialize("/robot_description", "arm_1",
-            "arm_link_0", "arm_link_5", 0.1));
+            "arm_link_0", "arm_link_5", 0.0));
 
     EXPECT_EQ(5, kinematics->getJointNames().size());
     EXPECT_EQ(5, kinematics->getLinkNames().size());
@@ -107,7 +107,7 @@ TEST(youbot_arm_kinematics_moveit, find_solution_for_candle_configuration)
             "moveit_core", "kinematics::KinematicsBase");
     KinematicsBasePtr kinematics = loader.createInstance(PLUGIN);
     kinematics->initialize("/robot_description", "arm_1", "arm_link_0",
-            "arm_link_5", 0.1);
+            "arm_link_5", 0.0);
 
     geometry_msgs::Pose pose;
     std::vector<double> seed(5, 0.0);
@@ -134,7 +134,7 @@ TEST(youbot_arm_kinematics_moveit, get_position_ik_fails_on_wrong_seed)
             "moveit_core", "kinematics::KinematicsBase");
     KinematicsBasePtr kinematics = loader.createInstance(PLUGIN);
     kinematics->initialize("/robot_description", "arm_1", "arm_link_0",
-            "arm_link_5", 0.1);
+            "arm_link_5", 0.0);
 
     geometry_msgs::Pose pose;
     std::vector<double> seed;

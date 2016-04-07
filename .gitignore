@@ -3,6 +3,7 @@
 .pydevproject
 .project
 .svn
+.autotools
 !.gitignore
 bin
 build
