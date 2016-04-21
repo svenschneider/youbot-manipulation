@@ -12,4 +12,7 @@
   <author email="sven.schneider@h-brs.de">Sven Schneider</author>
 
   <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>orocos_kdl</build_depend>
+
 </package>
