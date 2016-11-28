@@ -15,7 +15,7 @@ It is assumed that ROS and the youBot packages have been installed properly.
 First, create a Catkin workspace (http://wiki.ros.org/catkin/Tutorials/create_a_workspace) and add the repository to this workspace by executing the following commands:
 
     cd <catkin_workspace>/src
-    wstool set youbot_manipulation --git git@github.com:svenschneider/youbot-manipulation.git --version=hydro
+    wstool set youbot_manipulation --git git@github.com:svenschneider/youbot-manipulation.git --version=indigo
     wstool update youbot_manipulation
 
 Now build the workspace:
