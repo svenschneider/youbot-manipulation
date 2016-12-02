@@ -9,3 +9,10 @@ controller_list:
       - arm_joint_3
       - arm_joint_4
       - arm_joint_5
+      
+  - name: youbot_gripper
+    action_ns: gripper_command
+    type: GripperCommand
+    joints:
+      - gripper_finger_joint_l
+      - gripper_finger_joint_r
